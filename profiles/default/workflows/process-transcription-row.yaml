@@ -1,0 +1,31 @@
+- name: Query the LLM for sentiment and topics
+  lwe_llm:
+    template: voicemail-analysis.md
+    template_vars:
+      transcription: "{{ transcription_text }}"
+  register: llm_response
+  until: "llm_response is not failed"
+  retries: 10
+  delay: 3
+
+- name: Display the LLM response
+  debug:
+    var: llm_response
+
+- name: Update the transcription row in the database
+  community.mysql.mysql_query:
+    login_unix_socket: "{{ mysql_socket }}"
+    login_db: "{{ database_name }}"
+    query: |-
+      UPDATE
+        {{ database_table }}
+      SET
+        sentiment = '{{ llm_response.response.sentiments | to_json }}',
+        topics = '{{ llm_response.response.topics | to_json }}',
+        analyzed = 1
+      WHERE id = {{ transcription_id }}
+      ;
+
+- name: Display the transcription id, sentiment, and topics
+  debug:
+    msg: "Transcription ID {{ transcription_id }} updated"

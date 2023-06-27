@@ -1,0 +1,24 @@
+backend: api
+model:
+  default_preset: gpt-4-chatbot-responses
+chat:
+  log:
+    enabled: true
+    # Provide as CLI arg.
+    # filepath: None
+debug:
+  log:
+    enabled: true
+plugins:
+  enabled:
+    - awesome
+    - database
+    - data_query
+    - echo
+    - shell
+    - zap
+    - test_2
+    - provider_ai21
+    - provider_cohere
+    #- provider_huggingface_hub
+    - provider_openai

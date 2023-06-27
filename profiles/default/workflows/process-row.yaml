@@ -1,0 +1,22 @@
+---
+- name: "Extract text from source_location: {{ item.uri }}"
+  text_extractor:
+    path: "{{ source_location }}"
+  register: extracted_text
+
+- name: Append extracted_text to full_texts list
+  set_fact:
+    full_texts: "{{ full_texts + [extracted_text.content] }}"
+
+- name: Generate summary of extracted_text
+  lwe_llm:
+    message: "Provide a summary of the following text: {{ extracted_text.content }}"
+  register: text_summary
+
+- name: "Display summary for: {{ item.uri }}"
+  debug:
+    var: text_summary
+
+- name: Append text_summary to text_summaries list
+  set_fact:
+    text_summaries: "{{ text_summaries + [text_summary.response] }}"

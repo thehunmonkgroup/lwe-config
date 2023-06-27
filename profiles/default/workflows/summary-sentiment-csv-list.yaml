@@ -1,0 +1,66 @@
+---
+- name: Text extraction and summarization
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Collect user input for CSV file path
+      lwe_input:
+        prompt: "Please enter the filepath to the CSV file:"
+      register: csv_file_path
+
+    - name: Display CSV file path
+      debug:
+        var: csv_file_path
+
+    - name: Read the CSV file
+      read_csv:
+        path: "{{ csv_file_path.user_input }}"
+        fieldnames: uri
+      register: csv_data
+
+    - name: Initialize text_summaries and full_texts lists
+      set_fact:
+        text_summaries: []
+        full_texts: []
+
+    - name: Process each row in the CSV file
+      loop: "{{ csv_data.list }}"
+      vars:
+        source_location: "{{ item.uri }}"
+      include_tasks: process-row.yaml
+
+    - name: Generate overall summary and sentiment analysis
+      lwe_llm:
+        message: |-
+          Provide an overall summary and sentiment analysis of the following summaries: {{ text_summaries | join("\n\n") }}
+      register: final_summary_and_sentiment
+
+    - name: Display overall summary and sentiment analysis
+      debug:
+        var: final_summary_and_sentiment
+
+    - name: Initialize output_content string
+      set_fact:
+        output_content: "{{ 'SUMMARY:\n\n' + final_summary_and_sentiment.response + '\n\n\nSOURCE DATA:\n\n' }}"
+
+    - name: Add extracted texts and summaries to output_content
+      set_fact:
+        output_content: "{{ output_content + item.0 + '\n\n' + item.1 + '\n\nSummary: ' + item.2 + '\n\n' }}"
+      with_together:
+        - "{{ csv_data.list | map(attribute='uri') | list }}"
+        - "{{ full_texts }}"
+        - "{{ text_summaries }}"
+
+    - name: Create output file
+      copy:
+        content: "{{ output_content }}"
+        dest: /tmp/summary.txt
+      register: output_file
+
+    - name: "Display output file"
+      debug:
+        var: output_file
+
+    - name: Display final output
+      debug:
+        var: output_content

@@ -1,0 +1,41 @@
+---
+- name: Analyze Voicemail Transcriptions
+  hosts: localhost
+  gather_facts: no
+  vars:
+    database_name: apartmentlines
+    database_table: transcriptions_2
+    mysql_socket: /run/mysqld/mysqld.sock
+  tasks:
+
+    - name: "Query the {{ database_name }} database for unanalyzed transcriptions"
+      community.mysql.mysql_query:
+        login_unix_socket: "{{ mysql_socket }}"
+        login_db: "{{ database_name }}"
+        query: |-
+          SELECT
+            id, metadata, transcription
+          FROM {{ database_table }}
+          WHERE
+            analyzed = 0 AND
+            context = 'voicemail' AND
+            transcription IS NOT NULL AND
+            transcription <> ''
+          ;
+      register: unanalyzed_transcriptions
+
+    - name: Display first row of database results
+      debug:
+        var: unanalyzed_transcriptions.query_result.0.0
+
+    - name: Process each transcription
+      include_tasks: process-transcription-row.yaml
+      loop: "{{ unanalyzed_transcriptions.query_result.0 }}"
+      vars:
+        transcription_id: "{{ item.id }}"
+        transcription_text: "{{ item.transcription }}"
+
+    - name: Display the total number of processed transcriptions
+      debug:
+        msg: "Total transcriptions processed: {{ unanalyzed_transcriptions.rowcount.0 }}"
+...

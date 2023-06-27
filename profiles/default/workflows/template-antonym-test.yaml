@@ -1,0 +1,25 @@
+---
+- name: Given a word, provide the antonym
+  hosts: localhost
+  gather_facts: no
+  tasks:
+
+    - name: Collect word
+      lwe_input:
+        prompt: "Please enter a word"
+      register: user_word
+
+    - name: Display collected word
+      debug:
+        var: user_word.user_input
+
+    - name: Run antonym template
+      lwe_llm:
+        template: antonym.md
+        template_vars:
+          word: "{{ user_word.user_input }}"
+      register: antonym
+
+    - name: Display antonym
+      debug:
+        var: antonym.response

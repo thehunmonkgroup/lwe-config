@@ -1,0 +1,68 @@
+---
+- name: Given a goal and three URLs with related content, summarize and recommend best starting point
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Collect user's goal
+      lwe_input:
+        prompt: "Please enter your goal:"
+      register: user_goal
+
+    - name: Collect the first URL
+      lwe_input:
+        prompt: "Please enter the first URL with content related to your goal:"
+      register: url_1
+
+    - name: Collect the second URL
+      lwe_input:
+        prompt: "Please enter the second URL with content related to your goal:"
+      register: url_2
+
+    - name: Collect the third URL
+      lwe_input:
+        prompt: "Please enter the third URL with content related to your goal:"
+      register: url_3
+
+    - name: Extract content from each URL
+      text_extractor:
+        path: "{{ item.url }}"
+      loop:
+        - { url: "{{ url_1.user_input }}" }
+        - { url: "{{ url_2.user_input }}" }
+        - { url: "{{ url_3.user_input }}" }
+      register: extracted_contents
+
+    - name: Summarize the content of each URL
+      lwe_llm:
+        message: "Please summarize the following content: {{ item.content[:11250] }}"
+      loop: "{{ extracted_contents.results }}"
+      register: summaries
+
+    - name: Save summaries and URLs to separate files
+      copy:
+        content: "{{ item.url }}\n\n{{ item.summary }}"
+        dest: "/tmp/summary_{{ ansible_loop.index }}.txt"
+      loop:
+        - { url: "{{ url_1.user_input }}", summary: "{{ summaries.results[0].response }}" }
+        - { url: "{{ url_2.user_input }}", summary: "{{ summaries.results[1].response }}" }
+        - { url: "{{ url_3.user_input }}", summary: "{{ summaries.results[2].response }}" }
+      loop_control:
+        extended: true
+
+    - name: Review summaries and recommend best starting point
+      lwe_llm:
+        message: >
+          Based on the user's goal of "{{ user_goal.user_input }}", please review the following summaries and recommend the best starting point:
+          1. {{ summaries.results[0].response }}
+          2. {{ summaries.results[1].response }}
+          3. {{ summaries.results[2].response }}
+      register: best_starting_point
+
+    - name: Display recommendation in the terminal
+      debug:
+        var: best_starting_point.response
+
+    - name: Save recommendation to a file
+      copy:
+        content: "{{ best_starting_point.response }}"
+        dest: "/tmp/recommendation.txt"

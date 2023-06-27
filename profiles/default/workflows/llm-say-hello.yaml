@@ -1,0 +1,17 @@
+---
+- name: Ask the LLM to say hello
+  hosts: localhost
+  gather_facts: no
+  vars:
+    profile: default
+  tasks:
+
+    - name: LLM say hello
+      lwe_llm:
+        message: "Say hello!"
+        profile: "{{ profile }}"
+      register: answer
+
+    - name: Display answer
+      debug:
+        var: answer
