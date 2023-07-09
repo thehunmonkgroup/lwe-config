@@ -1,17 +1,13 @@
 ---
-- name: Ask the LLM to say hello
+# Simple connectivity test to the LLM.
+- name: Say hello
   hosts: localhost
   gather_facts: no
-  vars:
-    profile: default
   tasks:
-
-    - name: LLM say hello
+    - name: Say hello
       lwe_llm:
-        message: "Say hello!"
-        profile: "{{ profile }}"
-      register: answer
-
-    - name: Display answer
+        message: "Say hello"
+      register: result
+    - name: Display response
       debug:
-        var: answer
+        var: result
