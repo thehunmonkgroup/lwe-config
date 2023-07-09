@@ -15,6 +15,7 @@ plugins:
     - database
     - data_query
     - echo
+    #- examples
     - shell
     - zap
     - test_2
