@@ -1,0 +1,9 @@
+---
+- name: "Pick random value for characteristic: {{ key }}"
+  set_fact:
+    value: "{{ data[key] | random }}"
+
+- name: Add key-value pair to characteristics list
+  set_fact:
+    characteristics: "{{ characteristics + [key + ': ' + value] }}"
+...
