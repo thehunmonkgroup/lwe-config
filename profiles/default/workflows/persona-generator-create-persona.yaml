@@ -41,7 +41,7 @@
 
           {{ characteristics_string }}
 
-          Also generate both a first and last name for the persona.
+          Also generate both a first and last name for the persona. The full name should be highly unique, and stand out as uncommon.
 
           The output format of the persona should be as follows:
 

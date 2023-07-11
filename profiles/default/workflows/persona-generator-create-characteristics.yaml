@@ -3,7 +3,7 @@
   set_fact:
     value: "{{ data[key] | random }}"
 
-- name: Add key-value pair to characteristics list
+- name: "Add  '{{ key }}: {{ value }}' to characteristics list"
   set_fact:
     characteristics: "{{ characteristics + [key + ': ' + value] }}"
 ...
