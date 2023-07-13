@@ -1,6 +1,10 @@
 ---
+description: Analyze text and provide a positive/negative/neutral sentiment analysis
 request_overrides:
   preset: turbo
+  preset_overrides:
+    model_customizations:
+      temperature: 0
 ---
 
 Perform sentiment analysis on the following text:
