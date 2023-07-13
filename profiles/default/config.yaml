@@ -18,7 +18,7 @@ plugins:
     #- examples
     - shell
     - zap
-    - test_2
+    - test
     - provider_ai21
     - provider_cohere
     #- provider_huggingface_hub
