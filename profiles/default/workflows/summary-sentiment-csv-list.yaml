@@ -27,7 +27,7 @@
       loop: "{{ csv_data.list }}"
       vars:
         source_location: "{{ item.uri }}"
-      include_tasks: process-row.yaml
+      include_tasks: summary-sentiment-process-row.yaml
 
     - name: Generate overall summary and sentiment analysis
       lwe_llm:

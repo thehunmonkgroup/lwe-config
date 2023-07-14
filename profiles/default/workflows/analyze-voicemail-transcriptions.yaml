@@ -29,7 +29,7 @@
         var: unanalyzed_transcriptions.query_result.0.0
 
     - name: Process each transcription
-      include_tasks: process-transcription-row.yaml
+      include_tasks: analyze-voicemail-transcriptions-process-row.yaml
       loop: "{{ unanalyzed_transcriptions.query_result.0 }}"
       vars:
         transcription_id: "{{ item.id }}"
