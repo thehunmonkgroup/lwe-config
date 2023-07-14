@@ -15,6 +15,7 @@ plugins:
     - database
     - data_query
     - echo
+    - pastebin
     #- examples
     - shell
     - zap
