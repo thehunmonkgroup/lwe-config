@@ -24,3 +24,5 @@ plugins:
     - provider_cohere
     #- provider_huggingface_hub
     - provider_openai
+  examples:
+    confirm_overwrite: false
