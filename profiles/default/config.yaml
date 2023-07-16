@@ -4,8 +4,10 @@ model:
 chat:
   log:
     enabled: true
-    # Provide as CLI arg.
-    # filepath: None
+    # Provide as CLI arg, /dev/null is used here to prevent.
+    # the file from being written if it's turned on in a
+    # default Config().
+    filepath: /dev/null
 debug:
   log:
     enabled: true
