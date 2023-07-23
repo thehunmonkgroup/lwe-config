@@ -22,8 +22,8 @@ plugins:
     - shell
     - zap
     - test
-    - provider_ai21
-    - provider_cohere
+    #- provider_ai21
+    #- provider_cohere
     #- provider_huggingface_hub
     - provider_openai
   examples:
