@@ -8,6 +8,10 @@
     #url: "https://raw.githubusercontent.com/daveshap/Automated_Consensus/main/persona_traits.json"
     iterations: 30
     output_dir: "/tmp/personas"
+    db_login_host: localhost
+    db_name: uptrust
+    db_login_user: general
+    db_login_password: general
 
   tasks:
     - name: "Retrieve JSON persona data from URL: {{ url }}"

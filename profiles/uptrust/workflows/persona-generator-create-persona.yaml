@@ -3,10 +3,16 @@
   debug:
     msg: "Iteration: {{ iteration }}"
 
-- name: "Check if persona file persona-{{ iteration }} exists"
-  stat:
-    path: "{{ output_dir }}/persona-{{ iteration }}"
-  register: persona_file
+- name: "Check if persona {{ iteration }} exists"
+  postgresql_query:
+    login_host: "{{ db_login_host }}"
+    db: "{{ db_name }}"
+    login_user: "{{ db_login_user }}"
+    login_password: "{{ db_login_password }}"
+    query: SELECT id FROM users WHERE id = %s
+    positional_args:
+      - "{{ iteration }}"
+  register: persona_exists
 
 - block:
 
@@ -42,12 +48,6 @@
           {{ characteristics_string }}
 
           Also generate both a first and last name for the persona. The full name should be highly unique, and stand out as uncommon.
-
-          The output format of the persona should be as follows:
-
-          Name: [first_name] [last_name]
-
-          [persona_description]
       register: llm_result
       until: llm_result is succeeded
       delay: 10
@@ -59,6 +59,23 @@
           PERSONA:
 
           {{ llm_result.response }}
+
+    - name: "Store created persona in {{ iteration }} in the database"
+      postgresql_query:
+        login_host: "{{ db_login_host }}"
+        db: "{{ db_name }}"
+        login_user: "{{ db_login_user }}"
+        login_password: "{{ db_login_password }}"
+        query:
+          - query: INSERT INTO users (id, username, created_at) VALUES (%s, %s, NOW());
+            positional_args:
+              - "{{ iteration }}"
+              - "{{ created_persona.name }}"
+          - query: INSERT INTO personas (user_id, characteristics, description) VALUES (%s, %s, %s);
+            positional_args:
+              - "{{ iteration }}"
+              - "{{ characteristics_string }}"
+              - "{{ created_persona.description }}"
 
     - name: "Store characteristics and persona in file for persona {{ iteration }}"
       copy:
@@ -72,4 +89,4 @@
 
           {{ llm_result.response }}
 
-  when: not persona_file.stat.exists
+  when: persona_exists.rowcount > 0
