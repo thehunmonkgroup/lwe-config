@@ -13,20 +13,6 @@ debug:
     enabled: true
 plugins:
   enabled:
-    - awesome
-    - database
-    - data_query
-    - echo
     - pastebin
-    #- examples
-    - shell
-    - zap
-    - test
-    #- provider_ai21
-    #- provider_cohere
-    #- provider_huggingface_hub
-    - provider_openai
-    - provider_chat_vertexai
-    - provider_vertexai
   examples:
     confirm_overwrite: false
