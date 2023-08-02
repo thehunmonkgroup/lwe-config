@@ -14,5 +14,6 @@ debug:
 plugins:
   enabled:
     - pastebin
+    #- examples
   examples:
     confirm_overwrite: false
