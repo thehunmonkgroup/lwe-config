@@ -41,7 +41,17 @@
 
     - name: "Generate persona {{ iteration }} using LLM"
       lwe_llm:
+        profile: "{{ profile }}"
         preset: "{{ preset }}"
+        preset_overrides:
+          metadata:
+            return_on_function_response: true
+          model_customizations:
+            model_kwargs:
+              function_call:
+                name: generate_persona_name_description
+              functions:
+                - generate_persona_name_description
         message: |
           Generate a 100-200 word persona for someone with the following characteristics:
 
@@ -67,16 +77,13 @@
         login_user: "{{ db_login_user }}"
         login_password: "{{ db_login_password }}"
         query:
-          - query: INSERT INTO users (id, username, created_at) VALUES (%s, %s, NOW());
-            positional_args:
-              - "{{ iteration }}"
-              - "{{ created_persona.name }}"
-          - query: INSERT INTO personas (user_id, characteristics, description) VALUES (%s, %s, %s);
-            positional_args:
-              - "{{ iteration }}"
-              - "{{ characteristics_string }}"
-              - "{{ created_persona.description }}"
-
+          - "INSERT INTO users (id, username, created_at) VALUES (%(id)s, %(username)s, NOW())"
+          - "INSERT INTO personas (user_id, characteristics, description) VALUES (%(id)s, %(characteristics)s, %(description)s)"
+        named_args:
+          id: "{{ iteration }}"
+          username: "{{ llm_result.response.name }}"
+          characteristics: "{{ characteristics_string }}"
+          description: "{{ llm_result.response.description }}"
     - name: "Store characteristics and persona in file for persona {{ iteration }}"
       copy:
         dest: "{{ output_dir }}/persona-{{ iteration }}"
@@ -89,4 +96,4 @@
 
           {{ llm_result.response }}
 
-  when: persona_exists.rowcount > 0
+  when: persona_exists.rowcount == 0
