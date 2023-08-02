@@ -3,6 +3,7 @@
   hosts: localhost
   gather_facts: no
   vars:
+    profile: "uptrust"
     preset: "gpt-4-creative-writing"
     url: "https://f.xylil.com/uptrust/uptrust-persona-characteristics.json"
     #url: "https://raw.githubusercontent.com/daveshap/Automated_Consensus/main/persona_traits.json"
@@ -25,7 +26,7 @@
         data: "{{ result.content | from_json }}"
 
     - name: Loop to generate personas
-      loop: "{{ range(1, iterations + 1) }}"
+      loop: "{{ range(1, iterations | int + 1) }}"
       loop_control:
         loop_var: iteration
       vars:
