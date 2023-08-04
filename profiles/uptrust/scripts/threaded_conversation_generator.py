@@ -8,8 +8,11 @@ from psycopg2 import sql
 from psycopg2.extras import DictCursor
 
 from lwe.core.config import Config
-from lwe.core import util
+# from lwe.core import util
 from lwe.backends.api.backend import ApiBackend
+
+import tiktoken
+from langchain.embeddings import OpenAIEmbeddings
 
 # Constants
 DEFAULT_BRANCH_DEPTH = 5
@@ -25,6 +28,8 @@ DEFAULT_DB_USERNAME = 'general'
 DEFAULT_DB_PASSWORD = 'general'
 DEFAULT_LWE_PROFILE = 'uptrust'
 LWE_CONVERSATION_THREAD_TEMPLATE = 'conversation-thread-generator.md'
+EMBEDDING_MODEL = 'text-embedding-ada-002'
+EMBEDDING_CTX_LENGTH = 8191
 
 class ThreadedConversationGenerator:
     def __init__(self,
@@ -42,6 +47,8 @@ class ThreadedConversationGenerator:
                  db_password=DEFAULT_DB_PASSWORD,
                  lwe_profile=DEFAULT_LWE_PROFILE,
                  debug=False):
+        self.debug = debug
+        self.log = self.get_logger()
         self.topic = topic
         self.branch_depth = branch_depth
         self.users_min = users_min
@@ -50,41 +57,60 @@ class ThreadedConversationGenerator:
         self.thread_length_max = thread_length_max
         self.subtopic_min = subtopic_min
         self.subtopic_max = subtopic_max
-        self.db_host = db_host
-        self.db_name = db_name
-        self.db_username = db_username
-        self.db_password = db_password
-        self.lwe_profile = lwe_profile
-        self.conn = psycopg2.connect(host=self.db_host, dbname=self.db_name, user=self.db_username, password=self.db_password)
-        config = Config(profile=self.lwe_profile)
+        self.setup_lwe_backend(lwe_profile)
+        self.setup_db_conn(db_host, db_name, db_username, db_password)
+        self.setup_embeddings()
         # util.debug.console(config.config)
-        self.llm = ApiBackend(config)
-        self.debug = debug
+
+    def setup_db_conn(self, db_host, db_name, db_username, db_password):
+        self.log.debug(f"Setting up DB connection: {db_host, db_name, db_username, db_password}")
+        self.conn = psycopg2.connect(host=db_host, dbname=db_name, user=db_username, password=db_password)
+
+    def setup_lwe_backend(self, lwe_profile):
+        self.log.debug(f"Setting up LWE backend with profile: {lwe_profile}")
+        self.lwe_profile = lwe_profile
+        config = Config(profile=self.lwe_profile)
         config.set('debug.log.enabled', self.debug)
-        level = 'debug' if self.debug else 'info'
+        level = 'debug' if self.debug else 'warning'
         config.set('log.console.level', level)
         config.set('debug.log.level', level)
-        # util.debug.console(config.config)
-        logging.basicConfig(level=logging.DEBUG if self.debug else logging.INFO)
+        self.llm = ApiBackend(config)
+
+    def setup_embeddings(self):
+        self.log.debug(f"Setting up embeddings, model: {EMBEDDING_MODEL}, content length: {EMBEDDING_CTX_LENGTH}")
+        self.embeddings = OpenAIEmbeddings(model=EMBEDDING_MODEL, embedding_ctx_length=EMBEDDING_CTX_LENGTH)
+
+    def get_logger(self):
+        logger = logging.getLogger(self.__class__.__name__)
+        # Prevent duplicate loggers.
+        if logger.hasHandlers():
+            return logger
+        logger.setLevel(logging.DEBUG if self.debug else logging.INFO)
+        log_console_handler = logging.StreamHandler()
+        log_console_handler.setFormatter(logging.Formatter('%(name)s - %(levelname)s - %(message)s'))
+        log_console_handler.setLevel(logging.DEBUG if self.debug else logging.INFO)
+        logger.addHandler(log_console_handler)
+        return logger
 
     def generate_conversation_thread(self, branch_depth, topic, parent_id=None):
+        branch_depth -= 1
         users = self.get_random_users()
         thread_length = random.randint(self.thread_length_min, self.thread_length_max)
         branch_points = random.randint(self.subtopic_min, self.subtopic_max)
-        logging.info(f"Generating conversation thread at branch depth: {branch_depth}, for topic: {topic}, parent_id: {parent_id}, users: {len(users)}, thread_length: {thread_length}, branch_points: {branch_points}")
-        comments, subtopics = self.llm_conversation_thread(topic, users, thread_length, branch_points)
-        for comment in comments:
-            comment_id = self.store_comment(comment, parent_id)
+        self.log.info(f"Generating conversation thread for topic: {topic}, parent_id: {parent_id}, users: {len(users)}, thread_length: {thread_length}, branch_points: {branch_points}")
+        self.log.info(f"Branch depth remaining: {branch_depth}")
+        posts, subtopics = self.llm_conversation_thread(topic, users, thread_length, branch_points)
+        for post in posts:
+            post_id = self.store_post(post, parent_id)
             if branch_depth > 0:
                 for subtopic in subtopics:
-                    if subtopic['comment_id'] == comment['comment_id']:
-                        logging.info(f"Found branch point for comment: {comment_id}")
-                        branch_depth -= 1
-                        self.generate_conversation_thread(branch_depth, subtopic['sub_topic'], comment_id)
+                    if subtopic['post_id'] == post['post_id']:
+                        self.log.info(f"Found branch point for post: {post_id}")
+                        self.generate_conversation_thread(branch_depth, subtopic['sub_topic'], post_id)
 
     def get_random_users(self):
         num_users = random.randint(self.users_min, self.users_max)
-        logging.debug(f"Fetching {num_users} random users from the database")
+        self.log.debug(f"Fetching {num_users} random users from the database")
         cur = self.conn.cursor(cursor_factory=DictCursor)
         cur.execute("SELECT u.username, p.user_id, p.characteristics, p.description FROM users u INNER JOIN personas p ON u.id = p.user_id ORDER BY RANDOM() LIMIT %s", (num_users,))
         return cur.fetchall()
@@ -96,11 +122,13 @@ class ThreadedConversationGenerator:
             'topic': topic,
             'branch_points': self.int_to_en(branch_points),
         }
+        self.log.debug(f"Calling LLM with template: {LWE_CONVERSATION_THREAD_TEMPLATE}")
         success, response, _user_message = self.llm.run_template(LWE_CONVERSATION_THREAD_TEMPLATE, template_vars)
         assert success
-        return response['comments'], response['subtopics']
+        return response['posts'], response['subtopics']
 
     def format_users_to_personas(self, users):
+        self.log.debug(f"Formatting {len(users)} users to personas")
         formatted_personas = []
         for i, user in enumerate(users, start=1):
             formatted_persona = f"""
@@ -120,10 +148,13 @@ DESCRIPTION:
             formatted_personas.append(formatted_persona)
         return "\n\n".join(formatted_personas)
 
-    def store_comment(self, comment, parent_id):
-        logging.info(f"Storing comment, ID: {comment['comment_id']}, comment: {comment['comment']}")
+    def store_post(self, post, parent_id):
+        user_id = post['user_id']
+        content = post['content']
+        self.log.debug(f"Storing post, ID: {post['post_id']}, for user: {user_id}, content: {content}")
         cur = self.conn.cursor(cursor_factory=DictCursor)
-        cur.execute(sql.SQL("INSERT INTO posts (user_id, post_content, parent_id, created_at, updated_at) VALUES (%s, %s, %s, NOW(), NOW()) RETURNING id"), (comment['user_id'], comment['comment'], parent_id))
+        embedded_content = self.post_to_embedding(content)
+        cur.execute(sql.SQL("INSERT INTO posts (user_id, post_content, post_vec, parent_id, created_at, updated_at) VALUES (%s, %s, %s, %s, NOW(), NOW()) RETURNING id"), (user_id, content, embedded_content, parent_id))
         self.conn.commit()
         return cur.fetchone()['id']
 
@@ -152,6 +183,17 @@ DESCRIPTION:
                 return d[num // 100] + ' hundred and ' + self.int_to_en(num % 100)
         raise AssertionError('num is too large: %s' % str(num))
 
+    def post_to_embedding(self, post):
+        self.log.debug(f"Generating embedding for post: {post}")
+        tokenized_post = self.truncate_text_tokens(post, EMBEDDING_MODEL, EMBEDDING_CTX_LENGTH)
+        embedding = self.embeddings.embed_query(tokenized_post)
+        return embedding
+
+    def truncate_text_tokens(self, text, embedding_model=EMBEDDING_MODEL, max_tokens=EMBEDDING_CTX_LENGTH):
+        """Truncate a string to have `max_tokens` according to the given encoding."""
+        encoding = tiktoken.encoding_for_model(embedding_model)
+        return encoding.encode(text)[:max_tokens]
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate a multi-branching threaded conversation.')
@@ -159,8 +201,8 @@ if __name__ == "__main__":
     parser.add_argument('--branch-depth', type=int, default=DEFAULT_BRANCH_DEPTH, help='The number of layers in the branching tree.')
     parser.add_argument('--users-min', type=int, default=DEFAULT_USERS_MIN, help='The minimum number of users participating in an individual conversation thread.')
     parser.add_argument('--users-max', type=int, default=DEFAULT_USERS_MAX, help='The maximum number of users participating in an individual conversation thread.')
-    parser.add_argument('--thread-length-min', type=int, default=DEFAULT_THREAD_LENGTH_MIN, help='The minimum number of comments in an individual conversation thread.')
-    parser.add_argument('--thread-length-max', type=int, default=DEFAULT_THREAD_LENGTH_MAX, help='The maximum number of comments in an individual conversation thread.')
+    parser.add_argument('--thread-length-min', type=int, default=DEFAULT_THREAD_LENGTH_MIN, help='The minimum number of posts in an individual conversation thread.')
+    parser.add_argument('--thread-length-max', type=int, default=DEFAULT_THREAD_LENGTH_MAX, help='The maximum number of posts in an individual conversation thread.')
     parser.add_argument('--subtopic-min', type=int, default=DEFAULT_SUBTOPIC_MIN, help='The minimum number of subtopics to branch from a conversation thread.')
     parser.add_argument('--subtopic-max', type=int, default=DEFAULT_SUBTOPIC_MAX, help='The maximum number of subtopics to branch from a conversation thread.')
     parser.add_argument('--db-host', type=str, default=DEFAULT_DB_HOST, help='The database host address.')
@@ -187,4 +229,6 @@ if __name__ == "__main__":
         args.lwe_profile,
         args.debug
     )
+    generator.log.info(f"Starting conversation thread generataion with root topic: {args.topic}")
     generator.generate_conversation_thread(args.branch_depth, args.topic)
+    generator.log.info("Finished conversation thread generataion")
