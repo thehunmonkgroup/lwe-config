@@ -5,6 +5,11 @@ import logging
 import psycopg2
 import random
 from psycopg2 import sql
+from psycopg2.extras import DictCursor
+
+from lwe.core.config import Config
+from lwe.core import util
+from lwe.backends.api.backend import ApiBackend
 
 # Constants
 DEFAULT_BRANCH_DEPTH = 5
@@ -18,6 +23,8 @@ DEFAULT_DB_HOST = 'localhost'
 DEFAULT_DB_NAME = 'uptrust'
 DEFAULT_DB_USERNAME = 'general'
 DEFAULT_DB_PASSWORD = 'general'
+DEFAULT_LWE_PROFILE = 'uptrust'
+LWE_CONVERSATION_THREAD_TEMPLATE = 'conversation-thread-generator.md'
 
 class ThreadedConversationGenerator:
     def __init__(self,
@@ -33,6 +40,7 @@ class ThreadedConversationGenerator:
                  db_name=DEFAULT_DB_NAME,
                  db_username=DEFAULT_DB_USERNAME,
                  db_password=DEFAULT_DB_PASSWORD,
+                 lwe_profile=DEFAULT_LWE_PROFILE,
                  debug=False):
         self.topic = topic
         self.branch_depth = branch_depth
@@ -46,19 +54,28 @@ class ThreadedConversationGenerator:
         self.db_name = db_name
         self.db_username = db_username
         self.db_password = db_password
+        self.lwe_profile = lwe_profile
         self.conn = psycopg2.connect(host=self.db_host, dbname=self.db_name, user=self.db_username, password=self.db_password)
+        config = Config(profile=self.lwe_profile)
+        # util.debug.console(config.config)
+        self.llm = ApiBackend(config)
         self.debug = debug
+        config.set('debug.log.enabled', self.debug)
+        level = 'debug' if self.debug else 'info'
+        config.set('log.console.level', level)
+        config.set('debug.log.level', level)
+        # util.debug.console(config.config)
         logging.basicConfig(level=logging.DEBUG if self.debug else logging.INFO)
 
     def generate_conversation_thread(self, branch_depth, topic, parent_id=None):
         users = self.get_random_users()
         thread_length = random.randint(self.thread_length_min, self.thread_length_max)
         branch_points = random.randint(self.subtopic_min, self.subtopic_max)
-        logging.info(f"Generating conversation thread for topic: {topic}, parent_id: {parent_id}, users: {len(users)}, thread_length: {thread_length}, branch_points: {branch_points}")
+        logging.info(f"Generating conversation thread at branch depth: {branch_depth}, for topic: {topic}, parent_id: {parent_id}, users: {len(users)}, thread_length: {thread_length}, branch_points: {branch_points}")
         comments, subtopics = self.llm_conversation_thread(topic, users, thread_length, branch_points)
         for comment in comments:
             comment_id = self.store_comment(comment, parent_id)
-            if self.branch_depth > 0:
+            if branch_depth > 0:
                 for subtopic in subtopics:
                     if subtopic['comment_id'] == comment['comment_id']:
                         logging.info(f"Found branch point for comment: {comment_id}")
@@ -68,13 +85,20 @@ class ThreadedConversationGenerator:
     def get_random_users(self):
         num_users = random.randint(self.users_min, self.users_max)
         logging.debug(f"Fetching {num_users} random users from the database")
-        cur = self.conn.cursor()
-        cur.execute("SELECT * FROM personas ORDER BY RANDOM() LIMIT %s", (num_users,))
+        cur = self.conn.cursor(cursor_factory=DictCursor)
+        cur.execute("SELECT u.username, p.user_id, p.characteristics, p.description FROM users u INNER JOIN personas p ON u.id = p.user_id ORDER BY RANDOM() LIMIT %s", (num_users,))
         return cur.fetchall()
 
     def llm_conversation_thread(self, topic, users, thread_length, branch_points):
-        # This method is a stub and will be provided by the user later
-        pass
+        template_vars = {
+            'thread_length': self.int_to_en(thread_length),
+            'personas': self.format_users_to_personas(users),
+            'topic': topic,
+            'branch_points': self.int_to_en(branch_points),
+        }
+        success, response, _user_message = self.llm.run_template(LWE_CONVERSATION_THREAD_TEMPLATE, template_vars)
+        assert success
+        return response['comments'], response['subtopics']
 
     def format_users_to_personas(self, users):
         formatted_personas = []
@@ -83,6 +107,7 @@ class ThreadedConversationGenerator:
 [Persona {i}]
 
 ID: {user['user_id']}
+Name: {user['username']}
 
 CHARACTERISTICS:
 
@@ -96,11 +121,11 @@ DESCRIPTION:
         return "\n\n".join(formatted_personas)
 
     def store_comment(self, comment, parent_id):
-        logging.debug(f"Storing comment, ID: {comment['comment_id']}, comment: {comment['comment']}")
-        cur = self.conn.cursor()
-        cur.execute(sql.SQL("INSERT INTO comments (user_id, post_content, parent_id) VALUES (%s, %s, %s) RETURNING id"), (comment['user_id'], comment['comment'], parent_id))
+        logging.info(f"Storing comment, ID: {comment['comment_id']}, comment: {comment['comment']}")
+        cur = self.conn.cursor(cursor_factory=DictCursor)
+        cur.execute(sql.SQL("INSERT INTO posts (user_id, post_content, parent_id, created_at, updated_at) VALUES (%s, %s, %s, NOW(), NOW()) RETURNING id"), (comment['user_id'], comment['comment'], parent_id))
         self.conn.commit()
-        return cur.fetchone()[0]
+        return cur.fetchone()['id']
 
     def int_to_en(self, num):
         d = {
@@ -142,6 +167,7 @@ if __name__ == "__main__":
     parser.add_argument('--db-name', type=str, default=DEFAULT_DB_NAME, help='The name of the database used for storage.')
     parser.add_argument('--db-username', type=str, default=DEFAULT_DB_USERNAME, help='The database login username.')
     parser.add_argument('--db-password', type=str, default=DEFAULT_DB_PASSWORD, help='The database login password.')
+    parser.add_argument('--lwe-profile', type=str, default=DEFAULT_LWE_PROFILE, help='The LWE profile to use.')
     parser.add_argument('--debug', action='store_true', help='Enable debug logging.')
     args = parser.parse_args()
 
@@ -158,6 +184,7 @@ if __name__ == "__main__":
         args.db_name,
         args.db_username,
         args.db_password,
+        args.lwe_profile,
         args.debug
     )
     generator.generate_conversation_thread(args.branch_depth, args.topic)
