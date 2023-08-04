@@ -5,5 +5,5 @@
 
 - name: "Add  '{{ key }}: {{ value }}' to characteristics list"
   set_fact:
-    characteristics: "{{ characteristics + [key + ': ' + value] }}"
+    characteristics: "{{ characteristics + [key + ': ' + value | trim] }}"
 ...

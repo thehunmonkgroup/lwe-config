@@ -78,7 +78,7 @@
         login_password: "{{ db_login_password }}"
         query:
           - "INSERT INTO users (id, username, created_at) VALUES (%(id)s, %(username)s, NOW())"
-          - "INSERT INTO personas (user_id, characteristics, description) VALUES (%(id)s, %(characteristics)s, %(description)s)"
+          - "INSERT INTO personas (user_id, characteristics, description, created_at, updated_at) VALUES (%(id)s, %(characteristics)s, %(description)s, NOW(), NOW())"
         named_args:
           id: "{{ iteration }}"
           username: "{{ llm_result.response.name }}"
