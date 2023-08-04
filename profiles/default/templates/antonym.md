@@ -2,6 +2,8 @@
 description: Antonym generator
 request_overrides:
   preset: turbo
+  # activate_preset: true
+  # title: An antonym
   system_message: You are an antonym generator.
 ---
 
