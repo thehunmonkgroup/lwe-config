@@ -4,12 +4,12 @@ from typing import List
 from lwe.core.function import Function
 
 class Post(BaseModel):
-    post_id: str = Field(..., description="The ID of the post")
-    user_id: str = Field(..., description="The ID of the user making the post")
+    post_id: int = Field(..., description="The ID of the post")
+    user_id: int = Field(..., description="The ID of the user making the post")
     content: str = Field(..., description="The content of the user's post")
 
 class SubTopic(BaseModel):
-    post_id: str = Field(..., description="The ID of the post where a suggested sub-topic begins")
+    post_id: int = Field(..., description="The ID of the post where a suggested sub-topic begins")
     sub_topic: str = Field(..., description="The suggested sub-topic")
 
 class ConversationThread(BaseModel):
