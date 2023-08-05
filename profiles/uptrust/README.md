@@ -89,7 +89,7 @@ Conversation threads and reactions are generated separately from each other.
 First, generate the conversation thread:
 
 ```bash
-./threaded_conversation_generator.py --topic "War solves nothing" --branch-depth 3 --subtopic-max 2 --thread-length-max 8 --generate-conversation
+./threaded_conversation_generator.py --generate-conversation --topic "War solves nothing" --branch-depth 3 --subtopic-max 2 --thread-length-max 8
 ```
 
 Then, generate reactions to the thread posts:
