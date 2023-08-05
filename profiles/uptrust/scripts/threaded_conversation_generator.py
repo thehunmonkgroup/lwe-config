@@ -28,7 +28,7 @@ DEFAULT_DB_USERNAME = 'general'
 DEFAULT_DB_PASSWORD = 'general'
 DEFAULT_LWE_PROFILE = 'uptrust'
 LWE_CONVERSATION_THREAD_TEMPLATE = 'conversation-thread-generator.md'
-LWE_POST_REACTION_TEMPLATE = 'post-reaction-generator.md'
+LWE_USER_POST_REACTIONS_TEMPLATE = 'user-post-reaction-generator.md'
 EMBEDDING_MODEL = 'text-embedding-ada-002'
 EMBEDDING_CTX_LENGTH = 8191
 
@@ -164,6 +164,10 @@ class ThreadedConversationGenerator(BaseConversationGenerator):
         posts, subtopics = self.llm_conversation_thread(topic, users, thread_length, branch_points)
         for post in posts:
             post_id = self.store_post(post, parent_id)
+            # NOTE: As written, this stores the topic for EVERY post, which is not
+            # technically necessary, as it could be stored once then looked up by
+            # post_id or parent_id.
+            self.store_topic(post_id, topic)
             if branch_depth > 0:
                 for subtopic in subtopics:
                     if subtopic['post_id'] == post['post_id']:
@@ -192,13 +196,19 @@ class ThreadedConversationGenerator(BaseConversationGenerator):
         self.conn.commit()
         return cur.fetchone()['id']
 
+    def store_topic(self, post_id, topic):
+        self.log.debug(f"Storing topic for post, ID: {post_id}, topic: {topic}")
+        cur = self.conn.cursor(cursor_factory=DictCursor)
+        cur.execute(sql.SQL("INSERT INTO post_topics (post_id, topic, created_at, updated_at) VALUES (%s, %s, NOW(), NOW())"), (post_id, topic))
+        self.conn.commit()
+
     def post_to_embedding(self, post):
         self.log.debug(f"Generating embedding for post: {post}")
         tokenized_post = self.truncate_text_tokens(post, EMBEDDING_MODEL, EMBEDDING_CTX_LENGTH)
         embedding = self.embeddings.embed_query(tokenized_post)
         return embedding
 
-class PostReactionGenerator:
+class PostReactionGenerator(BaseConversationGenerator):
     def __init__(self,
                  users_min=DEFAULT_USERS_MIN,
                  users_max=DEFAULT_USERS_MAX,
@@ -226,16 +236,16 @@ class PostReactionGenerator:
                 'post': post['post_content'],
                 'personas': self.format_users_to_personas(users),
             }
-            self.log.debug(f"Calling LLM with template: {LWE_POST_REACTION_TEMPLATE}")
-            success, reactions, _user_message = self.llm.run_template(LWE_POST_REACTION_TEMPLATE, template_vars)
+            self.log.debug(f"Calling LLM with template: {LWE_USER_POST_REACTIONS_TEMPLATE}")
+            success, result, _user_message = self.llm.run_template(LWE_USER_POST_REACTIONS_TEMPLATE, template_vars)
             assert success
-            for reaction in reactions:
+            for reaction in result['reactions']:
                 self.store_reaction(post['id'], reaction['user_id'], reaction['reaction'])
 
     def store_reaction(self, post_id, user_id, reaction):
         self.log.debug(f"Storing reaction, post ID: {post_id}, user ID: {user_id}, reaction: {reaction}")
         cur = self.conn.cursor(cursor_factory=DictCursor)
-        cur.execute(sql.SQL("INSERT INTO edges (edge_out_user_id, edge_in_post_id, edge_type) VALUES (%s, %s, %s)"), (user_id, post_id, reaction))
+        cur.execute(sql.SQL("INSERT INTO edges (edge_out_user_id, edge_in_post_id, edge_type, created_at) VALUES (%s, %s, %s, NOW())"), (user_id, post_id, reaction))
         self.conn.commit()
 
 
@@ -282,7 +292,7 @@ if __name__ == "__main__":
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument('--generate-conversation', action='store_true', help='Generate a multi-branching threaded conversation.')
     group.add_argument('--generate-reactions', action='store_true', help='Generate reactions to posts.')
-    parser.add_argument('--topic', type=str, required=True, help='The topic for the root conversation thread.')
+    parser.add_argument('--topic', type=str, help='The topic for the root conversation thread.')
     parser.add_argument('--branch-depth', type=int, default=DEFAULT_BRANCH_DEPTH, help='The number of layers in the branching tree.')
     parser.add_argument('--users-min', type=int, default=DEFAULT_USERS_MIN, help='The minimum number of users participating in an individual conversation thread or reacting to a post.')
     parser.add_argument('--users-max', type=int, default=DEFAULT_USERS_MAX, help='The maximum number of users participating in an individual conversation thread or reacting to a post.')
@@ -299,6 +309,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.generate_conversation:
+        if not args.topic:
+            parser.error("Topic is required when generating a conversation.")
+            parser.print_help()
+            exit(1)
         run_threaded_conversation_generator(args)
     elif args.generate_reactions:
         run_post_reaction_generator(args)
