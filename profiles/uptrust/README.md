@@ -2,6 +2,67 @@
 
 Uptrust configuration files and scripts for use with [LLM Workflow Engine](https://github.com/llm-workflow-engine/llm-workflow-engine)
 
+## Dependencies
+
+You'll need:
+
+* Uptrust Postgres database schema installed
+* LWE installed and configured
+* The `psycopg2` package
+
+```bash
+pip install psycopg2
+pip install git+https://github.com/llm-workflow-engine/llm-workflow-engine
+# Symlink this repo to the default LWE config location.
+ln -s "$(pwd)" ${HOME}/.config/llm-workflow-engine
+# Install the lwe database, create the first user.
+lwe
+```
+
+## Workflows
+
+Workflows can be listed and run from within LWE.
+
+Start LWE:
+
+```bash
+lwe
+```
+
+List workflows:
+
+```
+/workflows
+```
+
+View a particular workflow config:
+
+```
+/workflow-show [workflow name]
+```
+
+Run a workflow:
+
+```
+/workflow-run [workflow name]
+```
+
+### Persona generator
+
+Generates unique names, characteristics, and descriptions for users based on a configurable JSON file.
+
+To see available variable overrides, have a look at the `vars` argument in the workflow:
+
+```
+/workflow-show persona-generator
+```
+
+You can override a default var setting as follows:
+
+```
+/workflow-run persona-generator iterations=5
+```
+
 ## Scripts
 
 ### calculate_max_posts.py
@@ -16,20 +77,6 @@ Simple script to easily get a sense for the maximum total posts you'll get when 
 ### threaded_conversation_generator.py
 
 Script to generate a threaded conversation and reactions to posts.
-
-You'll need:
-
-* Uptrust Postgres database schema installed
-* LWE installed and configured
-* The `psycopg2` package
-
-```bash
-pip install psycopg2
-pip install git+https://github.com/llm-workflow-engine/llm-workflow-engine
-# Symlink this repo to ${HOME}/.config/llm-workflow-engine
-# Install the lwe database, create the first user.
-lwe
-```
 
 Many options for this script, see the help:
 
