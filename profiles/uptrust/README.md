@@ -16,7 +16,7 @@ pip install git+https://github.com/llm-workflow-engine/llm-workflow-engine
 # Symlink this repo to the default LWE config location.
 ln -s "$(pwd)" ${HOME}/.config/llm-workflow-engine
 # Install the lwe database, create the first user.
-lwe
+lwe -p uptrust
 ```
 
 ## Workflows
@@ -26,7 +26,7 @@ Workflows can be listed and run from within LWE.
 Start LWE:
 
 ```bash
-lwe
+lwe -p uptrust
 ```
 
 List workflows:
