@@ -6,11 +6,16 @@ Uptrust configuration files and scripts for use with [LLM Workflow Engine](https
 
 You'll need:
 
+* OpenAI account with GPT-4 access and an API key created
 * Uptrust Postgres database schema installed
 * LWE installed and configured
 * The `psycopg2` package
 
+OpenAI API keys can be generated here: https://platform.openai.com/account/api-keys
+
 ```bash
+# You'll want to put this export somewhere permanent so the key is always available in your CLI environment.
+export OPENAI_API_KEY="sk-...the rest of your key..."
 pip install psycopg2
 pip install git+https://github.com/llm-workflow-engine/llm-workflow-engine
 # Symlink this repo to the default LWE config location.
