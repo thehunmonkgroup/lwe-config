@@ -15,6 +15,7 @@ from lwe.backends.api.backend import ApiBackend
 
 # Constants.
 DEFAULT_ITERATIONS = 30
+DEFAULT_START_ITERATION = 1
 DEFAULT_LWE_PROFILE = 'uptrust'
 DEFAULT_PERSONA_JSON_FILE = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'persona-characteristics.json')
 DEFAULT_OUTPUT_DIR = "/tmp/personas"
@@ -30,6 +31,7 @@ class PersonaGenerator:
                  lwe_profile=DEFAULT_LWE_PROFILE,
                  persona_json_file=DEFAULT_PERSONA_JSON_FILE,
                  iterations=DEFAULT_ITERATIONS,
+                 start_iteration=DEFAULT_START_ITERATION,
                  output_dir=DEFAULT_OUTPUT_DIR,
                  db_host=DEFAULT_DB_HOST,
                  db_name=DEFAULT_DB_NAME,
@@ -41,6 +43,7 @@ class PersonaGenerator:
         self.lwe_profile = lwe_profile
         self.persona_json_file = persona_json_file
         self.iterations = iterations
+        self.start_iteration = start_iteration
         self.output_dir = output_dir
         self.characteristics = []
         self.setup_lwe_backend(lwe_profile)
@@ -82,7 +85,7 @@ class PersonaGenerator:
 
     def generate_personas(self):
         data = self.retrieve_json_data()
-        for iteration in range(1, self.iterations + 1):
+        for iteration in range(self.start_iteration, self.start_iteration + self.iterations):
             self.log.debug(f"Iteration: {iteration}")
             if not self.persona_exists(iteration):
                 characteristics = self.generate_characteristics(data)
@@ -95,6 +98,8 @@ class PersonaGenerator:
         cur = self.conn.cursor()
         cur.execute("SELECT id FROM users WHERE id = %s", (iteration,))
         result = cur.fetchone()
+        if result:
+            self.log.info(f"Persona {iteration} already exists")
         return result is not None
 
     def generate_characteristics(self, data):
@@ -146,6 +151,7 @@ if __name__ == "__main__":
     parser.add_argument('--profile', default=DEFAULT_LWE_PROFILE, help=f'Profile to use for LLM (default: {DEFAULT_LWE_PROFILE})')
     parser.add_argument('--persona-json-file', default=DEFAULT_PERSONA_JSON_FILE, help=f'JSON characteristics file to generate personas from (default: {DEFAULT_PERSONA_JSON_FILE})')
     parser.add_argument('--iterations', type=int, default=DEFAULT_ITERATIONS, help=f'Number of iterations to generate personas (default: {DEFAULT_ITERATIONS})')
+    parser.add_argument('--start-iteration', type=int, default=DEFAULT_START_ITERATION, help=f'Iteration start position (default: {DEFAULT_START_ITERATION})')
     parser.add_argument('--output-dir', default=DEFAULT_OUTPUT_DIR, help=f'Directory to store generated persona files (default: {DEFAULT_OUTPUT_DIR})')
     parser.add_argument('--db-host', type=str, default=DEFAULT_DB_HOST, help=f'The database host address (default: {DEFAULT_DB_HOST}).')
     parser.add_argument('--db-name', type=str, default=DEFAULT_DB_NAME, help=f'The name of the database used for storage (default: {DEFAULT_DB_NAME}).')
@@ -160,6 +166,7 @@ if __name__ == "__main__":
         args.profile,
         args.persona_json_file,
         args.iterations,
+        args.start_iteration,
         args.output_dir,
         args.db_host,
         args.db_name,
