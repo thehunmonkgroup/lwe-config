@@ -20,7 +20,7 @@ export OPENAI_API_KEY="sk-...the rest of your key..."
 pip install psycopg2
 pip install git+https://github.com/llm-workflow-engine/llm-workflow-engine
 # Symlink this repo to the default LWE config location.
-ln -s "$(pwd)" "$(lwe config config_dir)"
+ln -sfn "$(pwd)" "$(lwe config config_dir)"
 # Install the lwe database, create the first user.
 lwe -p uptrust
 ```
