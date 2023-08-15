@@ -1,20 +1,15 @@
 metadata:
-  name: gpt-4-function-test
   description: GPT-4 with support for OpenAI functions
+  name: gpt-4-function-test
   provider: chat_openai
 model_customizations:
   max_tokens: null
+  model_kwargs:
+    functions:
+    - reverse_content
+    - uppercase_content
+    top_p: 0.1
   model_name: gpt-4-0613
   n: 1
   request_timeout: 60
-  streaming: true
   temperature: 0.2
-  model_kwargs:
-    top_p: 0.1
-    functions:
-      # - Langchain-ShellTool
-      # - test_function
-      - reverse_content
-      - uppercase_content
-      # - geolocation_info
-      # - geolocation_weather

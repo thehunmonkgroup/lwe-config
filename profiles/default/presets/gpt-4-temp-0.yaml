@@ -1,11 +1,10 @@
 metadata:
-  name: gpt-4-temp-0
   description: GPT-4 zero temperature
+  name: gpt-4-temp-0
   provider: chat_openai
 model_customizations:
   max_tokens: null
   model_name: gpt-4
   n: 1
   request_timeout: 60
-  streaming: true
   temperature: 0.0

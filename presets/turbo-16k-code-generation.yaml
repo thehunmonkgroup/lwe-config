@@ -1,6 +1,6 @@
 metadata:
-  name: turbo-16k-code-generation
   description: GPT-3.5 16K for code generation
+  name: turbo-16k-code-generation
   provider: chat_openai
 model_customizations:
   max_tokens: null
@@ -9,5 +9,4 @@ model_customizations:
   model_name: gpt-3.5-turbo-16k
   n: 1
   request_timeout: 60
-  streaming: true
   temperature: 0.2
