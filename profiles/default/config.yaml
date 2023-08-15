@@ -18,14 +18,14 @@ plugins:
     # - data_query
     # - echo
     - pastebin
-    #- examples
+    # - examples
     - shell
     # - zap
     # - test
     #- provider_ai21
     #- provider_cohere
     #- provider_huggingface_hub
-    # - provider_openai
+    - provider_openai
     # - provider_chat_vertexai
     # - provider_vertexai
   examples:
