@@ -26,6 +26,7 @@ plugins:
     #- provider_cohere
     #- provider_huggingface_hub
     - provider_openai
+    - provider_fake_llm
     # - provider_chat_vertexai
     # - provider_vertexai
   examples:
