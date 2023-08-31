@@ -6,8 +6,9 @@ model_customizations:
   max_tokens: null
   model_kwargs:
     functions:
-    - reverse_content
-    - uppercase_content
+    - test_function
+    # - reverse_content
+    # - uppercase_content
     top_p: 0.1
   model_name: gpt-4-0613
   n: 1
