@@ -1,9 +1,9 @@
 from lwe.core.function import Function
 
 CATEGORIES = [
-    'kb',
-    'related',
-    'prohibited'
+    'VALID',
+    'UNAVAILABLE',
+    'OUT_OF_SCOPE'
 ]
 
 
@@ -20,24 +20,34 @@ class CategorizeUserQuestion(Function):
                         "type": "string",
                         "description": f"The category of the question, must be one of: {', '.join(CATEGORIES)}",
                         "enum": CATEGORIES,
-                    }
+                    },
+                    "reason": {
+                        "type": "string",
+                        "description": "A short explanation for why the category was chosen for the question",
+                    },
                 },
-                "required": ["category"],
+                "required": [
+                    "category",
+                    "reason",
+                ],
             },
         }
 
-    def __call__(self, category: str) -> dict:
+    def __call__(self, category: str, reason: str) -> dict:
         """
         Categorize a user's question in reference to a knowledge base
 
         :param category: The category of the question.
         :type category: str
+        :param reason: A short explanation for why the category was chosen for the question.
+        :type reason:: str
         :return: A dictionary containing the category of the question.
         :rtype: dict
         """
         try:
             output = {
                 'category': category,
+                'reason': reason,
                 'message': 'Determined the category of the question',
             }
         except Exception as e:
