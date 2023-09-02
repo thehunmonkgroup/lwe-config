@@ -1,1 +1,4 @@
 backend: api
+backend_options:
+  auto_create_first_user: test
+database: 'sqlite:///:memory:'
