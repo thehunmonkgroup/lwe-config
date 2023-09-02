@@ -1,4 +1,9 @@
 backend: api
 backend_options:
   auto_create_first_user: test
+  title_generation:
+    provider: fake_llm
 database: 'sqlite:///:memory:'
+plugins:
+  enabled:
+    - provider_fake_llm
