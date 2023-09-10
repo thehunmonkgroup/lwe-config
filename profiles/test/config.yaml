@@ -4,6 +4,8 @@ backend_options:
   title_generation:
     provider: fake_llm
 database: 'sqlite:///:memory:'
+model:
+  default_preset: test
 plugins:
   enabled:
     - provider_fake_llm
