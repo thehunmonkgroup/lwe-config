@@ -1,0 +1,9 @@
+metadata:
+  name: gpt-4-32k
+  provider: azure_openai_chat
+model_customizations:
+  deployment_name: gpt-4-32k
+  max_tokens: null
+  n: 1
+  request_timeout: null
+  temperature: 0.7
