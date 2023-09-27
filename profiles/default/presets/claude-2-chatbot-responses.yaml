@@ -1,0 +1,9 @@
+metadata:
+  name: claude-2-chatbot-responses
+  provider: chat_anthropic
+  system_message: default
+model_customizations:
+  max_tokens_to_sample: 1500
+  model: claude-2
+  temperature: 0.5
+  top_p: 0.5
