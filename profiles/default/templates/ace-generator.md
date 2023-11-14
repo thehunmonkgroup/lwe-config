@@ -1,7 +1,7 @@
 ---
 description: AI assists the user in writing an Autonomous Cognitive Entity (ACE).
 request_overrides:
-  preset: gpt-4-32k
+  preset: gpt-4-code-generation
   activate_preset: true
   system_message: |-
     ## MAIN PURPOSE

@@ -3,7 +3,7 @@
   hosts: localhost
   vars:
     user_id: 1
-    preset: "gpt-4-1106-preview"
+    preset: "gpt-4-chatbot-responses"
     content_directory: "/tmp/file-content"
     content_max_length: 400000
     summaries_directory: "/tmp/file-summaries"
