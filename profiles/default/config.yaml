@@ -1,4 +1,3 @@
-backend: api
 model:
   # default_preset: gpt-4-chatbot-responses
   default_preset: claude-2-chatbot-responses
@@ -26,11 +25,14 @@ plugins:
     #- provider_ai21
     #- provider_cohere
     #- provider_huggingface_hub
-    - provider_openai
+    # - provider_openai
     - provider_fake_llm
     - provider_azure_openai_chat
     - provider_chat_anthropic
-    - provider_chat_vertexai
+    # - provider_chat_anyscale
+    # - provider_chat_cohere
+    # - provider_chat_ollama
+    # - provider_chat_vertexai
     # - provider_vertexai
   examples:
     confirm_overwrite: false
