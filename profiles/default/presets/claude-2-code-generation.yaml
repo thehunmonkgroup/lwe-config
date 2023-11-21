@@ -4,6 +4,6 @@ metadata:
   system_message: programmer
 model_customizations:
   max_tokens_to_sample: 4000
-  model: claude-2
+  model: claude-2.1
   temperature: 0.2
   top_p: 0.1
