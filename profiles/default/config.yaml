@@ -32,7 +32,8 @@ plugins:
     # - provider_chat_anyscale
     # - provider_chat_cohere
     # - provider_chat_ollama
-    # - provider_chat_vertexai
+    - provider_chat_vertexai
+    - provider_chat_mistralai
     # - provider_vertexai
   examples:
     confirm_overwrite: false
