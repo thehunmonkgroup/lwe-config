@@ -1,0 +1,8 @@
+metadata:
+  name: mistral
+  provider: chat_mistralai
+model_customizations:
+  model: mistral-medium
+  safe_mode: false
+  temperature: 0.7
+  top_p: 1
