@@ -1,5 +1,6 @@
 metadata:
-  name: mistral
+  name: mistral-medium
+  description: MistralAI medium model
   provider: chat_mistralai
 model_customizations:
   model: mistral-medium

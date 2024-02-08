@@ -1,5 +1,6 @@
 metadata:
   name: claude-2-chatbot-responses
+  description: Claude 2 general chatbot
   provider: chat_anthropic
   system_message: default
 model_customizations:

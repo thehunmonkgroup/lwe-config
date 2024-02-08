@@ -1,5 +1,6 @@
 metadata:
   name: claude-2-creative-writing
+  description: Claude 2 for creative writing
   provider: chat_anthropic
   system_message: creative_writer
 model_customizations:

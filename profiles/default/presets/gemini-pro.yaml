@@ -1,0 +1,7 @@
+metadata:
+  name: gemini-pro
+  description: Gemini Pro model
+  provider: chat_google_genai
+model_customizations:
+  model: gemini-pro
+  n: 1

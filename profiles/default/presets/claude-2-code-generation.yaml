@@ -1,5 +1,6 @@
 metadata:
   name: claude-2-code-generation
+  description: Claude 2 for code generation
   provider: chat_anthropic
   system_message: programmer
 model_customizations:
