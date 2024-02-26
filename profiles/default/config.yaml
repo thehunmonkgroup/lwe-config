@@ -1,7 +1,7 @@
 model:
   # default_preset: gpt-4-chatbot-responses
   # default_preset: claude-2-chatbot-responses
-  default_preset: mistral-medium
+  default_preset: mistral-large
 chat:
   log:
     enabled: true
@@ -18,7 +18,7 @@ plugins:
     # - database
     # - data_query
     # - echo
-    - pastebin
+    # - pastebin
     - gist
     # - examples
     - shell
@@ -31,7 +31,7 @@ plugins:
     # - provider_azure_openai_chat
     - provider_chat_anthropic
     # - provider_chat_anyscale
-    - provider_chat_cohere
+    # - provider_chat_cohere
     - provider_chat_ollama
     # - provider_chat_vertexai
     - provider_chat_google_genai
