@@ -1,9 +1,9 @@
 metadata:
-  name: mistral-medium
+  name: mistral-large
   description: MistralAI medium model
   provider: chat_mistralai
 model_customizations:
-  model: mistral-medium
+  model: mistral-large-latest
   safe_mode: false
   temperature: 0.7
   top_p: 1
