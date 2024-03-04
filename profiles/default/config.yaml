@@ -1,7 +1,7 @@
 model:
   # default_preset: gpt-4-chatbot-responses
-  # default_preset: claude-2-chatbot-responses
-  default_preset: mistral-large
+  default_preset: claude-chatbot-responses
+  # default_preset: mistral-large
 chat:
   log:
     enabled: true
