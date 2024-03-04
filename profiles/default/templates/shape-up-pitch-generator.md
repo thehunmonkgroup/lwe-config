@@ -2,7 +2,7 @@
 description: AI assists the user in writing a Shape Up pitch
 request_overrides:
   preset: gpt-4-creative-writing
-  # preset: claude-2-creative-writing
+  # preset: claude-creative-writing
   activate_preset: true
   system_message: |-
     ## MAIN PURPOSE
