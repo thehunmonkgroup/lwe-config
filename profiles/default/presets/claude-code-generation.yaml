@@ -1,0 +1,10 @@
+metadata:
+  name: claude-code-generation
+  description: Claude for code generation
+  provider: chat_anthropic
+  system_message: programmer
+model_customizations:
+  max_tokens: 4000
+  model: claude-3-opus-20240229
+  temperature: 0.2
+  top_p: 0.1

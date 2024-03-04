@@ -1,0 +1,10 @@
+metadata:
+  name: claude-creative-writing
+  description: Claude for creative writing
+  provider: chat_anthropic
+  system_message: creative_writer
+model_customizations:
+  max_tokens: 4000
+  model: claude-3-opus-20240229
+  temperature: 0.7
+  top_p: 0.8

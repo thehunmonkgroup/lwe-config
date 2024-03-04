@@ -1,0 +1,10 @@
+metadata:
+  name: claude-chatbot-responses
+  description: Claude general chatbot
+  provider: chat_anthropic
+  system_message: default
+model_customizations:
+  max_tokens: 1500
+  model: claude-3-opus-20240229
+  temperature: 0.5
+  top_p: 0.5
