@@ -1,5 +1,5 @@
 ---
-description: Prisma chatbot followup question
+description: Prisma chatbot, followup question
 request_overrides:
   preset: claude-haiku-chatbot
   preset_overrides:

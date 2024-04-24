@@ -1,0 +1,3 @@
+plugins:
+  enabled:
+    - provider_chat_anthropic
