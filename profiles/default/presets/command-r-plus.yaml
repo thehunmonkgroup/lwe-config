@@ -1,0 +1,5 @@
+metadata:
+  name: command-r-plus
+  provider: chat_cohere
+model_customizations:
+  model: command-r-plus
