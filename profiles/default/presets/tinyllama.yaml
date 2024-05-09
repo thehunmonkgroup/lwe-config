@@ -1,6 +1,0 @@
-metadata:
-  description: TinyLlama base model
-  name: tinyllama
-  provider: chat_ollama
-model_customizations:
-  model: tinyllama

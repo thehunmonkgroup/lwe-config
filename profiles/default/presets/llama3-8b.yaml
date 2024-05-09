@@ -1,0 +1,6 @@
+metadata:
+  description: Llama 3 8B instruct model
+  name: llama3-8b
+  provider: chat_ollama
+model_customizations:
+  model: llama3:instruct

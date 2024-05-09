@@ -1,0 +1,6 @@
+metadata:
+  description: Mistral 7B instruct model
+  name: mistral-7b
+  provider: chat_ollama
+model_customizations:
+  model: mistral:instruct
