@@ -32,12 +32,13 @@ plugins:
     - provider_chat_anthropic
     # - provider_chat_anyscale
     - provider_chat_cohere
-    # - provider_chat_ollama
+    - provider_chat_ollama
     # - provider_chat_vertexai
     - provider_chat_google_genai
     - provider_chat_groq
     - provider_chat_mistralai
     - provider_openrouter
+    - provider_chat_fireworks
     # - provider_vertexai
   examples:
     confirm_overwrite: false
@@ -47,3 +48,11 @@ plugins:
   gist:
     include_raw_link: true
     exclude_system_messages: true
+  provider_chat_fireworks:
+    models:
+      "accounts/fireworks/models/mixtral-8x22b-instruct":
+        max_tokens: 65536
+      "accounts/fireworks/models/llama-v3-70b-instruct":
+        max_tokens: 8192
+  provider_chat_groq:
+    show_inactive_models: true
