@@ -1,0 +1,5 @@
+metadata:
+  name: phi3
+  provider: chat_ollama
+model_customizations:
+  model: phi3:instruct
