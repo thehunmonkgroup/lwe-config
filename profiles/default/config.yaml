@@ -31,12 +31,12 @@ plugins:
     # - provider_azure_openai_chat
     - provider_chat_anthropic
     # - provider_chat_anyscale
-    - provider_chat_cohere
+    # - provider_chat_cohere
     - provider_chat_ollama
     # - provider_chat_vertexai
     - provider_chat_google_genai
-    - provider_chat_groq
-    - provider_chat_mistralai
+    # - provider_chat_groq
+    # - provider_chat_mistralai
     - provider_openrouter
     - provider_chat_fireworks
     # - provider_vertexai
