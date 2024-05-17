@@ -6,12 +6,11 @@ metadata:
 model_customizations:
   max_tokens: null
   model_kwargs:
-    function_call:
-      name: store_sentiment_and_topics
-    functions:
-    - store_sentiment_and_topics
     top_p: 0.5
   model_name: gpt-3.5-turbo
   n: 1
   request_timeout: 60
   temperature: 0.5
+  tools:
+    - store_sentiment_and_topics
+  tool_choice: store_sentiment_and_topics

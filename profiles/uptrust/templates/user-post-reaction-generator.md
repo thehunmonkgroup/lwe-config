@@ -8,11 +8,9 @@ request_overrides:
     metadata:
       return_on_function_response: true
     model_customizations:
-      model_kwargs:
-        function_call:
-          name: user_post_reactions
-        functions:
+      tools:
         - user_post_reactions
+      tool_choice: user_post_reactions
 ---
 
 Given the following TOPIC: {{ topic }}

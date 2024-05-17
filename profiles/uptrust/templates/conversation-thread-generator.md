@@ -8,11 +8,9 @@ request_overrides:
     metadata:
       return_on_function_response: true
     model_customizations:
-      model_kwargs:
-        function_call:
-          name: store_conversation
-        functions:
+      tools:
         - store_conversation
+      tool_choice: store_conversation
 ---
 
 Generate a realistic, unfiltered, and potentially contentious social media conversation of at least {{ thread_length }} posts between the following personas, each provided with a numeric ID, a full name, a list of characteristics, and a description:

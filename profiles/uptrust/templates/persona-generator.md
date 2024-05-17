@@ -7,11 +7,9 @@ request_overrides:
     metadata:
       return_on_function_response: true
     model_customizations:
-      model_kwargs:
-        function_call:
-          name: generate_persona_name_description
-        functions:
-          - generate_persona_name_description
+      tools:
+        - generate_persona_name_description
+      tool_choice: generate_persona_name_description
 ---
 
 Generate a 100-200 word persona for someone with the following characteristics:

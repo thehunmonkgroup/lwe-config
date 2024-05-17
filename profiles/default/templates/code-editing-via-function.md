@@ -9,11 +9,10 @@ request_overrides:
       return_on_function_response: true
     model_customizations:
       model_kwargs:
-        function_call:
-          name: apply_code_changes
-        functions:
-          - apply_code_changes
       temperature: 0
+      tools:
+        - apply_code_changes
+      tool_choice: apply_code_changes
 ---
 
 Add method docstrings in reStructuredText format suitable for Sphinx documentation.
