@@ -1,0 +1,12 @@
+metadata:
+  description: MistralAI with support for tools
+  name: mistral-tool-test
+  provider: chat_mistralai
+model_customizations:
+  model: open-mixtral-8x22b
+  temperature: 0.7
+  top_p: 1
+  tools:
+    # - test_function
+    - reverse_content
+    # - uppercase_content

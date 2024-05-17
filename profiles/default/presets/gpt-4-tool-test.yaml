@@ -1,12 +1,12 @@
 metadata:
-  description: GPT-4 with support for OpenAI functions
-  name: gpt-4-function-test
+  description: GPT-4 with support for tools
+  name: gpt-4-tool-test
   provider: chat_openai
 model_customizations:
   max_tokens: null
   tools:
-    # - test_function
-    - reverse_content
+    - test_tool
+    # - reverse_content
     # - uppercase_content
   model_kwargs:
     top_p: 0.1

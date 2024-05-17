@@ -1,0 +1,12 @@
+metadata:
+  description: Claude with support tools
+  name: claude-tool-test
+  provider: chat_anthropic
+model_customizations:
+  model: claude-3-opus-20240229
+  max_tokens: 1024
+  temperature: 0.2
+  tools:
+    # - test_tool
+    - reverse_content
+    # - uppercase_content

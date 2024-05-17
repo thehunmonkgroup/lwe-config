@@ -1,0 +1,14 @@
+metadata:
+  description: VertexAI with support for tools
+  name: vertexai-tool-test
+  provider: chat_vertexai
+model_customizations:
+  max_output_tokens: 128
+  model_name: gemini-1.5-pro-preview-0514
+  temperature: 0.0
+  top_k: 40
+  top_p: 0.95
+  tools:
+    # - test_tool
+    - reverse_content
+    # - uppercase_content

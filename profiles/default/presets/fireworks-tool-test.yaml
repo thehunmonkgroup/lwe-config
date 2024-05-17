@@ -1,0 +1,12 @@
+metadata:
+  description: FireworksAI with support for tools
+  name: fireworks-tool-test
+  provider: chat_fireworks
+model_customizations:
+  model_name: accounts/fireworks/models/firefunction-v1
+  n: 1
+  temperature: 0.0
+  tools:
+    # - test_function
+    - reverse_content
+    # - uppercase_content

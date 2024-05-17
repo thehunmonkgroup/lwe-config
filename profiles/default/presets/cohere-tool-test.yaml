@@ -1,0 +1,10 @@
+metadata:
+  description: Cohere with support for tools
+  name: cohere-tool-test
+  provider: chat_cohere
+model_customizations:
+  model: command-r-plus
+  tools:
+    # - test_function
+    - reverse_content
+    # - uppercase_content
