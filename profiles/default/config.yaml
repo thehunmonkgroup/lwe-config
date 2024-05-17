@@ -33,8 +33,8 @@ plugins:
     # - provider_chat_anyscale
     # - provider_chat_cohere
     - provider_chat_ollama
-    - provider_chat_vertexai
-    - provider_chat_google_genai
+    # - provider_chat_vertexai
+    # - provider_chat_google_genai
     # - provider_chat_groq
     # - provider_chat_mistralai
     - provider_openrouter
@@ -54,5 +54,7 @@ plugins:
         max_tokens: 65536
       "accounts/fireworks/models/llama-v3-70b-instruct":
         max_tokens: 8192
+      "accounts/fireworks/models/firefunction-v1":
+        max_tokens: 32768
   provider_chat_groq:
     show_inactive_models: true
