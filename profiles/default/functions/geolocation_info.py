@@ -1,8 +1,8 @@
 import requests
 
-from lwe.core.function import Function
+from lwe.core.tool import Tool
 
-class GeolocationInfo(Function):
+class GeolocationInfo(Tool):
 
     def get_public_ip(self):
         response = requests.get('https://api.ipify.org?format=json')

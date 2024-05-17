@@ -1,7 +1,7 @@
 # import base64
-from lwe.core.function import Function
+from lwe.core.tool import Tool
 
-class ApplyCodeChanges(Function):
+class ApplyCodeChanges(Tool):
     def __call__(self, changed_code: str, applied_changes: str = None) -> dict:
         """
         Apply changes to the provided code based on the provided instructions.

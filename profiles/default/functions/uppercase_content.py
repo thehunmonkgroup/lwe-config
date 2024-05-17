@@ -1,6 +1,6 @@
-from lwe.core.function import Function
+from lwe.core.tool import Tool
 
-class UppercaseContent(Function):
+class UppercaseContent(Tool):
     def __call__(self, content: str) -> dict:
         """
         Uppercase the provided content

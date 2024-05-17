@@ -4,11 +4,11 @@ metadata:
   provider: chat_openai
 model_customizations:
   max_tokens: null
-  model_kwargs:
-    functions:
-    - test_function
-    # - reverse_content
+  tools:
+    # - test_function
+    - reverse_content
     # - uppercase_content
+  model_kwargs:
     top_p: 0.1
   model_name: gpt-4o
   n: 1

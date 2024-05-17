@@ -1,8 +1,8 @@
 import requests
 
-from lwe.core.function import Function
+from lwe.core.tool import Tool
 
-class GeolocationWeather(Function):
+class GeolocationWeather(Tool):
 
     def get_weather(self, latitude: int, longitude: int, foo: str = 'bar') -> dict:
         url = f'https://wttr.in/{latitude},{longitude}?format=%C|%t'
