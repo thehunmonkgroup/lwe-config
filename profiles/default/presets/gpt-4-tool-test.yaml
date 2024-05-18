@@ -5,8 +5,8 @@ metadata:
 model_customizations:
   max_tokens: null
   tools:
-    - test_tool
-    # - reverse_content
+    # - test_tool
+    - reverse_content
     # - uppercase_content
   model_kwargs:
     top_p: 0.1

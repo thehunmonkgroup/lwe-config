@@ -2,7 +2,6 @@ metadata:
   name: voicemail_analysis
   description: Analyze the sentiment and topics of voicemails
   provider: chat_openai
-  return_on_function_response: true
 model_customizations:
   max_tokens: null
   model_kwargs:
