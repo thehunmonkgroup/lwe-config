@@ -4,8 +4,8 @@ request_overrides:
   # preset: llama3-8b
   # preset: mistral-7b
   # preset: claude-haiku
-  preset: groq-tool-test
-  # preset: fireworks-tool-test
+  # preset: groq-tool-test
+  preset: fireworks-tool-test
   system_message: |
     You are an AI voicemail analyst, specializing in extracting key insights from voicemail messages left for apartment community offices. Your role is to listen carefully to each voicemail, reading between the lines to discern the underlying sentiments and core topics expressed by the caller, as they pertain to the apartment community.
 
@@ -19,7 +19,7 @@ request_overrides:
 Here is the transcript of a voicemail message that was left for the office of an apartment community:
 
 <voicemail_transcript>
-{{voicemail_transcript}}
+{{transcription}}
 </voicemail_transcript>
 
 This message was left specifically for the office staff of an apartment community, so please analyze the content with that context in mind.
