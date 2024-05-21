@@ -18,7 +18,7 @@ class ExtractSentimentTopics(BaseModel):
 class StoreSentimentAndTopics(Tool):
 
     def clean_results(self, results):
-        return [re.sub(r'\W', '_', elem['name'].lower()) for elem in results]
+        return [re.sub(r'\W', '_', elem.lower()) for elem in results]
 
     def get_config(self) -> dict:
         return {
@@ -28,14 +28,6 @@ class StoreSentimentAndTopics(Tool):
         }
 
     def __call__(self, sentiments: List[str], topics: List[str]) -> dict:
-        """
-        Store the extracted sentiments and topics
-
-        :param content: The content to reverse.
-        :type content: str
-        :return: A dictionary containing the reversed content.
-        :rtype: dict
-        """
         try:
             output = {
                 'sentiments': self.clean_results(sentiments),
@@ -46,4 +38,8 @@ class StoreSentimentAndTopics(Tool):
             output = {
                 'error': str(e),
             }
+            if self.config.debug:
+                import traceback
+                traceback.print_exc()
+
         return output
