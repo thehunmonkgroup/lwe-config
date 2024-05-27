@@ -1,15 +1,8 @@
 metadata:
-  name: voicemail_analysis
   description: Analyze the sentiment and topics of voicemails
-  provider: chat_openai
+  name: voicemail-analysis
+  provider: chat_fireworks
 model_customizations:
-  max_tokens: null
-  model_kwargs:
-    top_p: 0.5
-  model_name: gpt-3.5-turbo
+  model_name: accounts/fireworks/models/llama-v3-70b-instruct
   n: 1
-  request_timeout: 60
-  temperature: 0.5
-  tools:
-    - store_sentiment_and_topics
-  tool_choice: store_sentiment_and_topics
+  temperature: 0.0
