@@ -7,6 +7,7 @@ model_customizations:
   tools:
     # - test_tool
     - reverse_content
+    # - Langchain-MoveFileTool
     # - uppercase_content
   model_kwargs:
     top_p: 0.1
