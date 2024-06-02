@@ -1,0 +1,10 @@
+metadata:
+  name: together-tool-test
+  provider: chat_together
+model_customizations:
+  model_name: mistralai/Mixtral-8x7B-Instruct-v0.1
+  n: 1
+  temperature: 0.0
+  tools:
+  - reverse_content
+  tool_choice: reverse_content
