@@ -53,22 +53,26 @@ Example output format:
 Choose one broad category from the following list:
 leasing, maintenance, billing, resident, amenity, safety, parking, communication, other
 
-Choose up to four additional subcategories that provide more specific details about the content of the voicemail. Each subcategory should be a single word relevant to the broad category and the voicemail message. Use the minimum number of subcategories that will effectively capture the content essense of the message.
+Choose up to four additional subcategories that provide more specific details about the content of the voicemail. Each subcategory should be a single word relevant to the broad category and the voicemail message. Use the minimum number of subcategories that will effectively capture the essence of the message.
 
 Subcategories:
 - leasing: application, tour, approval, renewal, termination, transfer, waitlist
-- maintenance: repair, plumbing, electric, appliance, hvac, pest, painting, carpentry
+- maintenance: repair, plumbing, electric, appliance, hvac, pest, painting, carpentry, emergency
 - billing: rent, fee, deposit, utility, late, plan, error, dispute
-- resident: package, mail, deliveries, noise, trash, guest, pet, neighbor, violation, eviction
+- resident: mail, deliveries, noise, trash, guest, pet, neighbor, violation, eviction
 - amenity: fitness, pool, clubhouse, gym, internet, wifi
 - safety: security, access, key, gate, fire, lighting, parking, emergency
 - parking: assigned, reserved, guest, violation, towing, permit, handicap, dispute
 - communication: callback, message, contact, inquiry, status, email, phone, portal, website
 - other: [use relevant single-word subcategories as needed]
 
-If multiple broad categories apply, prioritize the one that best represents the main focus or purpose of the message. If no clear category or subcategories can be determined, use `unknown`.
+If multiple broad categories apply, prioritize the one that best represents the main focus or purpose of the message.
 
-Example output format:
+Use the predefined subcategories consistently. For example, always use "repair" for general maintenance issues and "plumbing" specifically for water-related issues. You may use subcategories that are not in the predefined list, but only if they are not semantically similar to any predefined subcategory.
+
+If no clear category or subcategories can be determined, use `unknown`.
+
+### Example output format:
 <categories>leasing, application, fee</categories>
 
 ## RULES FOR EXTRACTED URGENCY LEVEL
