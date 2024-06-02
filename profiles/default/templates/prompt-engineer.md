@@ -1,7 +1,7 @@
 ---
 platform: the AI
-title: Prompt Engineering session
-description: Prompt Engineering session
+title: Prompt Engineering session (new prompt)
+description: Prompt Engineering session, new prompt
 model_customizations:
   system_message: You are an expert artificial intelligence prompt engineer, with the ability to assist users in iteratively improving prompts.
 ---
