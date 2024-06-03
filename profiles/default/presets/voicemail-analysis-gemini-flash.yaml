@@ -1,0 +1,9 @@
+metadata:
+  description: Analyze voicemails for sentiment/categories/urgency/caller type/language, using Gemini 1.5 Flash
+  name: voicemail-analysis-gemini-flash
+  provider: chat_google_genai
+model_customizations:
+  model: models/gemini-1.5-flash-latest
+  n: 1
+  temperature: 0.0
+  top_k: null

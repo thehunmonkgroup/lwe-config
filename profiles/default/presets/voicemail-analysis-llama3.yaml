@@ -1,6 +1,6 @@
 metadata:
-  description: Analyze the sentiment and topics of voicemails
-  name: voicemail-analysis
+  description: Analyze voicemails for sentiment/categories/urgency/caller type/language, using Llama3
+  name: voicemail-analysis-llama3
   provider: chat_fireworks
 model_customizations:
   model_name: accounts/fireworks/models/llama-v3-70b-instruct

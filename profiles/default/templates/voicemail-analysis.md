@@ -1,11 +1,8 @@
 ---
 description: Analyze voicemail messages for sentiments, categories, urgency, caller type, language
 request_overrides:
-  # preset: llama3-8b
-  # preset: mistral-7b
-  # preset: claude-haiku
-  # preset: fireworks-tool-test
-  preset: voicemail-analysis
+  # preset: voicemail-analysis-llama3
+  preset: voicemail-analysis-gemini-flash
   system_message: |
     You are an AI voicemail analyst, specializing in extracting key insights from voicemail messages left for apartment community offices. Your role is to review each voicemail transcription, identify the underlying sentiments, core categories, urgency levels, caller types, and language used by the callers.
 
