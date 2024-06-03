@@ -31,46 +31,114 @@ For urgency, caller type, and language, provide one and only one word from the p
 ## RULES FOR EXTRACTED SENTIMENTS
 
 Each extracted sentiment should:
-- ALWAYS indicate a human tone or emotion
-- ALWAYS be a single word
-- ALWAYS be expressed as a past participle/adjective (e.g., 'frustrated' instead of 'frustration')
-- Use `unknown` when the voicemail is incomplete or lacks sufficient context
+- Accurately reflect the caller's emotions, attitudes, or tone conveyed in the voicemail
+- Be a single word that captures a specific aspect of the caller's sentiment
+- Be expressed as a past participle or adjective (e.g., 'frustrated' instead of 'frustration')
+- Be relevant to the content and context of the voicemail message
 
-Reference list of sentiments: polite, frustrated, concerned, interested, urgent, appreciative, disappointed, confused, angry, satisfied, helpful, anxious, apologetic, reassuring, sympathetic, professional, friendly, calm, detached, neutral
+Reference list of sentiments:
 
-If an extracted sentiment is semantically similar or the same as one from the reference list, use the term from the reference list for consistency. You may use a sentiment that is not available in the reference list, but only if the sentiment can be clearly determined, is not similar to any sentiments in the referene list, and can be expressed in a single word.
+- polite
+- frustrated
+- concerned
+- interested
+- urgent
+- appreciative
+- disappointed
+- confused
+- angry
+- satisfied
+- helpful
+- anxious
+- apologetic
+- reassuring
+- sympathetic
+- professional
+- friendly
+- calm
+- detached
+- neutral
+- unknown
+
+If an extracted sentiment is semantically similar to one from the reference list, use the term from the reference list for consistency. You may use a sentiment that is not in the reference list, but only if the sentiment can be clearly determined, is not similar to any sentiments in the reference list, and can be expressed in a single word.
 
 If no clear sentiment can be determined, use `unknown`.
 
-Example output format:
-<sentiments>polite, concerned</sentiments>
+### Example output formats:
+<sentiments>polite</sentiments>
+<sentiments>frustrated</sentiments>
+<sentiments>concerned, confused</sentiments>
+<sentiments>appreciative, satisfied</sentiments>
+<sentiments>urgent, anxious, apologetic</sentiments>
+<sentiments>friendly, helpful</sentiments>
+<sentiments>disappointed, angry</sentiments>
+<sentiments>calm, professional</sentiments>
+<sentiments>interested, friendly, polite</sentiments>
+<sentiments>reassuring, sympathetic</sentiments>
+<sentiments>unknown</sentiments>
+
+When extracting sentiments, consider the following:
+- Focus on the most prominent and clearly expressed sentiments in the voicemail
+- Use the predefined list of sentiments as a guide, but allow for the inclusion of other relevant sentiments when necessary
+- Ensure that the extracted sentiments are consistent with the content and tone of the specific voicemail message
+- Aim to capture a range of sentiments that accurately represent the caller's emotions and attitudes throughout the voicemail
 
 ## RULES FOR EXTRACTED CATEGORIES
 
-Choose one broad category from the following list:
-leasing, maintenance, billing, resident, amenity, safety, parking, communication, other
+Choose one broad category from the following list that best represents the main focus or purpose of the voicemail message:
 
-Choose up to four additional subcategories that provide more specific details about the content of the voicemail. Each subcategory should be a single word relevant to the broad category and the voicemail message. Use the minimum number of subcategories that will effectively capture the essence of the message.
+- leasing
+- maintenance
+- billing
+- resident
+- amenity
+- safety
+- parking
+- communication
+- inquiry
+- other
+
+Choose up to two additional subcategories that provide the most essential and relevant details about the content of the voicemail. Each subcategory should be a single word that is clearly related to the broad category and the voicemail message. Use the predefined subcategories whenever possible to maintain consistency.
 
 Subcategories:
-- leasing: application, tour, approval, renewal, termination, transfer, waitlist
-- maintenance: repair, plumbing, electric, appliance, hvac, pest, painting, carpentry, emergency
-- billing: rent, fee, deposit, utility, late, plan, error, dispute
-- resident: mail, deliveries, noise, trash, guest, pet, neighbor, violation, eviction
-- amenity: fitness, pool, clubhouse, gym, internet, wifi
-- safety: security, access, key, gate, fire, lighting, parking, emergency
-- parking: assigned, reserved, guest, violation, towing, permit, handicap, dispute
-- communication: callback, message, contact, inquiry, status, email, phone, portal, website
-- other: [use relevant single-word subcategories as needed]
+- leasing: application, tour, availability, pricing, approval, renewal, termination, move-in
+- maintenance: repair, request, plumbing, electric, appliance, hvac, pest, emergency
+- billing: rent, payment, fee, deposit, utility, late, dispute, error
+- resident: mail, package, noise, complaint, guest, pet, parking, violation
+- amenity: fitness, pool, clubhouse, internet, reservation, access
+- safety: security, access, gate, lighting, incident, emergency
+- parking: violation, towing, assigned, reserved, permit, guest
+- communication: callback, inquiry, follow-up, contact, message, status, update
+- inquiry: hours, location, service, policy, feedback, pricing, availability, amenity
 
-If multiple broad categories apply, prioritize the one that best represents the main focus or purpose of the message.
+Use the `other` category sparingly and only when the voicemail content does not fit into any of the broad categories or subcategories. When using the `other` category, provide a single-word description of the main topic that is general enough to potentially apply to multiple voicemails. Avoid creating highly specific or unique subcategories for the `other` category, as this can lead to a long tail of rarely used subcategories. If the `other` category is used, the subcategory should still be relevant to the apartment community context and should not overlap with any existing broad categories or subcategories. If the voicemail content is too specific or unique to be adequately described by a general subcategory under `other`, consider using the `unknown` category instead.
 
-Use the predefined subcategories consistently. For example, always use "repair" for general maintenance issues and "plumbing" specifically for water-related issues. You may use subcategories that are not in the predefined list, but only if they are not semantically similar to any predefined subcategory.
+Use the `unknown` category only when the voicemail is unclear, incomplete, or lacks sufficient information to determine a category or subcategory.
 
-If no clear category or subcategories can be determined, use `unknown`.
+Before creating a new subcategory, carefully consider whether the voicemail content can be adequately described by an existing broad category or subcategory. If a new subcategory is necessary, think about whether it is likely to apply to multiple voicemails or if it is too specific to the current voicemail. Prioritize using existing subcategories whenever possible, even if they don't perfectly match the voicemail content, as long as they capture the main topic or issue. Remember that the goal is to maintain a focused and consistent set of categories and subcategories across all voicemails, rather than creating unique subcategories for each individual voicemail.
 
-### Example output format:
-<categories>leasing, application, fee</categories>
+If multiple broad categories apply, choose the one that best represents the main focus or purpose of the message.
+
+### Example output formats:
+<categories>leasing, application</categories>
+<categories>maintenance, plumbing, repair</categories>
+<categories>billing, rent</categories>
+<categories>resident, noise</categories>
+<categories>amenity, pool, reservation</categories>
+<categories>safety, security, access</categories>
+<categories>parking, violation, towing</categories>
+<categories>communication, callback</categories>
+<categories>inquiry, hours, location</categories>
+<categories>maintenance, hvac</categories>
+<categories>leasing, availability, pricing</categories>
+<categories>billing, utility, dispute</categories>
+<categories>resident, package, delivery</categories>
+<categories>inquiry, service</categories>
+<categories>other, landscaping</categories>
+<categories>unknown</categories>
+<categories>maintenance, appliance, repair</categories>
+<categories>leasing, tour, pricing</categories>
+<categories>safety, emergency</categories>
 
 ## RULES FOR EXTRACTED URGENCY LEVEL
 
@@ -88,7 +156,8 @@ Consider the following factors when assessing urgency:
 
 If no clear urgency can be determined, use `unknown`.
 
-Example output format:
+### Example output format:
+
 <urgency>medium</urgency>
 
 ## RULES FOR EXTRACTED CALLER TYPE
@@ -107,7 +176,8 @@ Identify one caller type based on the content of the message:
 
 If no clear caller type can be determined, use `unknown`.
 
-Example output format:
+### Example output format:
+
 <caller_type>vendor</caller_type>
 
 ## RULES FOR EXTRACTED LANGUAGE
@@ -119,7 +189,8 @@ Identify the primary language used in the transcription:
 
 If no clear language can be determined, use `unknown`.
 
-Example output format:
+### Example output format:
+
 <language>english</language>
 
 # OUTPUT FORMAT
