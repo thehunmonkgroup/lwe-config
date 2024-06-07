@@ -171,7 +171,7 @@ Identify one caller type based on the content of the message:
 - legal: Legal representative, attorney, or insurance company representative
 - sales: Real estate agent or potential buyer
 - media: Media or press representative
-- external: Family member, friend, guarantor of a resident, neighboring property resident or owner, local business owner, or community organization representative
+- external: Family member, friend, guarantor, guest of a resident, neighboring property resident or owner, local business owner, or community organization representative
 - other: Caller type does not fit into any of the above categories
 
 If no clear caller type can be determined, use `unknown`.
