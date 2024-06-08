@@ -184,17 +184,17 @@ For the purpose of extracting the caller type, the caller is the person leaving 
 
 ### Example output format:
 
-<caller_type>resident</caller_type>
-<caller_type>prospect</caller_type>
-<caller_type>staff</caller_type>
-<caller_type>vendor</caller_type>
-<caller_type>government</caller_type>
-<caller_type>legal</caller_type>
-<caller_type>sales</caller_type>
-<caller_type>media</caller_type>
-<caller_type>external</caller_type>
-<caller_type>other</caller_type>
-<caller_type>unknown</caller_type>
+<caller-type>resident</caller-type>
+<caller-type>prospect</caller-type>
+<caller-type>staff</caller-type>
+<caller-type>vendor</caller-type>
+<caller-type>government</caller-type>
+<caller-type>legal</caller-type>
+<caller-type>sales</caller-type>
+<caller-type>media</caller-type>
+<caller-type>external</caller-type>
+<caller-type>other</caller-type>
+<caller-type>unknown</caller-type>
 
 ## RULES FOR EXTRACTED LANGUAGE
 
@@ -214,13 +214,13 @@ If no clear language can be determined, use `unknown`.
 
 # OUTPUT FORMAT
 
-Complete the XML template below, providing your reasoning for choosing the sentiments, categories, urgency, caller_type, and language. Inside the <reasoning> tag, briefly explain your choices based on the content of the voicemail transcription and the apartment community context. Your reasoning should mention specific details from the voicemail that support your selections.
+Complete the XML template below, providing your reasoning for choosing the sentiments, categories, urgency, caller-type, and language. Inside the <reasoning> tag, briefly explain your choices based on the content of the voicemail transcription and the apartment community context. Your reasoning should mention specific details from the voicemail that support your selections.
 
 <analysis>
-<reasoning>YOUR REASONING FOR ALL DATA POINTS (SENTIMENTS, CATEGORIES, URGENCY, CALLER_TYPE, LANGUAGE). PROVIDE SPECIFIC DETAILS FROM THE VOICEMAIL THAT SUPPORT YOUR CHOICES.</reasoning>
+<reasoning>YOUR REASONING FOR ALL DATA POINTS (SENTIMENTS, CATEGORIES, URGENCY, CALLER TYPE, LANGUAGE). PROVIDE SPECIFIC DETAILS FROM THE VOICEMAIL THAT SUPPORT YOUR CHOICES.</reasoning>
 <sentiments>COMMA-SEPARATED LIST OF SENTIMENTS</sentiments>
 <categories>COMMA-SEPARATED LIST OF CATEGORIES</categories>
 <urgency>URGENCY VALUE</urgency>
-<caller_type>CALLER_TYPE VALUE</caller_type>
+<caller-type>CALLER TYPE VALUE</caller-type>
 <language>LANGUAGE VALUE</language>
 </analysis>
