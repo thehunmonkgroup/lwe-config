@@ -143,6 +143,7 @@ If multiple broad categories apply, choose the one that best represents the main
 ## RULES FOR EXTRACTED URGENCY LEVEL
 
 Determine the urgency level based on the content and tone of the message:
+
 - high: The message conveys immediacy, emergency, or critical importance, such as issues related to safety, security, or essential services that require prompt attention.
 - medium: The message indicates a need for timely response or action, but does not rise to the level of an emergency, such as maintenance requests or time-sensitive inquiries that impact the resident's comfort or convenience.
 - low: The message is informational, routine, or does not require immediate action, such as general inquiries, feedback, or non-urgent requests.
@@ -158,11 +159,15 @@ If no clear urgency can be determined, use `unknown`.
 
 ### Example output format:
 
+<urgency>high</urgency>
 <urgency>medium</urgency>
+<urgency>low</urgency>
+<urgency>unknown</urgency>
 
 ## RULES FOR EXTRACTED CALLER TYPE
 
-Identify one caller type based on the content of the message:
+Identify a single caller type based on the content of the message, which must be one of the following types:
+
 - resident: Current or former resident of the property
 - prospect: Prospective resident interested in living at the property
 - staff: Property owner, manager, or employee
@@ -171,18 +176,30 @@ Identify one caller type based on the content of the message:
 - legal: Legal representative, attorney, or insurance company representative
 - sales: Real estate agent or potential buyer
 - media: Media or press representative
-- external: Family member, friend, guarantor, guest of a resident, neighboring property resident or owner, local business owner, or community organization representative
+- external: Family member, friend, guarantor, guest of a resident, neighboring property resident or owner, local business owner, community organization representative
 - other: Caller type does not fit into any of the above categories
+- unknown: Caller type cannot be clearly determined
 
-If no clear caller type can be determined, use `unknown`.
+For the purpose of extracting the caller type, the caller is the person leaving the message.
 
 ### Example output format:
 
+<caller_type>resident</caller_type>
+<caller_type>prospect</caller_type>
+<caller_type>staff</caller_type>
 <caller_type>vendor</caller_type>
+<caller_type>government</caller_type>
+<caller_type>legal</caller_type>
+<caller_type>sales</caller_type>
+<caller_type>media</caller_type>
+<caller_type>external</caller_type>
+<caller_type>other</caller_type>
+<caller_type>unknown</caller_type>
 
 ## RULES FOR EXTRACTED LANGUAGE
 
 Identify the primary language used in the transcription:
+
 - english: The voicemail transcription is primarily in English
 - spanish: The voicemail transcription is primarily in Spanish
 - other: The voicemail transcription is primarily in a language other than English or Spanish
@@ -192,6 +209,8 @@ If no clear language can be determined, use `unknown`.
 ### Example output format:
 
 <language>english</language>
+<language>spanish</language>
+<language>other</language>
 
 # OUTPUT FORMAT
 
