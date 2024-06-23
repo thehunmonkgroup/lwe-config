@@ -1,5 +1,6 @@
 model:
-  default_preset: gpt-4-chatbot-responses
+  default_preset: claude-sonnet
+  # default_preset: gpt-4-chatbot-responses
   # default_preset: claude-chatbot-responses
   # default_preset: mistral-large
 chat:
@@ -32,13 +33,13 @@ plugins:
     - provider_chat_anthropic
     # - provider_chat_anyscale
     # - provider_chat_cohere
-    - provider_chat_ollama
+    # - provider_chat_ollama
     # - provider_chat_openai_compat
     # - provider_chat_together
     # - provider_chat_vertexai
     - provider_chat_google_genai
-    - provider_chat_groq
-    - provider_chat_mistralai
+    # - provider_chat_groq
+    # - provider_chat_mistralai
     - provider_openrouter
     - provider_chat_fireworks
     # - provider_vertexai
@@ -50,6 +51,10 @@ plugins:
   gist:
     include_raw_link: true
     exclude_system_messages: true
+  provider_openrouter:
+    models:
+      deepseek/deepseek-coder:
+        max_tokens: 32768
   provider_chat_fireworks:
     models:
       "accounts/fireworks/models/mixtral-8x22b-instruct":
