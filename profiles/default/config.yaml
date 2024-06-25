@@ -15,33 +15,36 @@ debug:
     enabled: true
 plugins:
   enabled:
-    # - awesome
-    # - database
-    # - data_query
+    # Built-in plugins
     # - echo
-    # - pastebin
-    - gist
     # - examples
+    # - provider_chat_openai_compat
+    - provider_fake_llm
+    # Installed plugins.
+    # - awesome
+    # - data_query
+    # - database
+    - gist
+    # - pastebin
     - shell
     # - test
+    # Installed provider plugins.
     # - provider_ai21
-    # - provider_cohere
-    # - provider_huggingface_hub
-    # - provider_openai
-    - provider_fake_llm
     # - provider_azure_openai_chat
     - provider_chat_anthropic
     # - provider_chat_anyscale
     # - provider_chat_cohere
-    # - provider_chat_ollama
-    # - provider_chat_openai_compat
-    # - provider_chat_together
-    # - provider_chat_vertexai
+    - provider_chat_fireworks
     - provider_chat_google_genai
     # - provider_chat_groq
     # - provider_chat_mistralai
-    - provider_openrouter
-    - provider_chat_fireworks
+    # - provider_chat_ollama
+    # - provider_chat_together
+    # - provider_chat_vertexai
+    # - provider_cohere
+    # - provider_huggingface_hub
+    # - provider_openai
+    # - provider_openrouter
     # - provider_vertexai
   examples:
     confirm_overwrite: false
@@ -51,23 +54,23 @@ plugins:
   gist:
     include_raw_link: true
     exclude_system_messages: true
-  provider_openrouter:
-    models:
-      deepseek/deepseek-coder:
-        max_tokens: 32768
-  provider_chat_fireworks:
-    models:
-      "accounts/fireworks/models/mixtral-8x22b-instruct":
-        max_tokens: 65536
-      "accounts/fireworks/models/llama-v3-70b-instruct":
-        max_tokens: 8192
-      "accounts/fireworks/models/firefunction-v1":
-        max_tokens: 32768
-  provider_chat_together:
-    models:
-      "mistralai/Mixtral-8x7B-Instruct-v0.1":
-        max_tokens: 32768
-      "meta-llama/Llama-3-70b-chat-hf":
-        max_tokens: 8192
-  provider_chat_groq:
-    show_inactive_models: true
+  # provider_openrouter:
+  #   models:
+  #     deepseek/deepseek-coder:
+  #       max_tokens: 32768
+  # provider_chat_fireworks:
+  #   models:
+  #     "accounts/fireworks/models/mixtral-8x22b-instruct":
+  #       max_tokens: 65536
+  #     "accounts/fireworks/models/llama-v3-70b-instruct":
+  #       max_tokens: 8192
+  #     "accounts/fireworks/models/firefunction-v1":
+  #       max_tokens: 32768
+  # provider_chat_together:
+  #   models:
+  #     "mistralai/Mixtral-8x7B-Instruct-v0.1":
+  #       max_tokens: 32768
+  #     "meta-llama/Llama-3-70b-chat-hf":
+  #       max_tokens: 8192
+  # provider_chat_groq:
+  #   show_inactive_models: true
