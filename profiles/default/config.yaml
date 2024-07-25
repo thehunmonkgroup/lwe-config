@@ -1,5 +1,6 @@
 model:
-  default_preset: claude-sonnet
+  default_preset: llama3-405b
+  # default_preset: claude-sonnet
   # default_preset: gpt-4-chatbot-responses
   # default_preset: claude-chatbot-responses
   # default_preset: mistral-large
@@ -41,7 +42,6 @@ plugins:
     # - provider_chat_ollama
     # - provider_chat_together
     # - provider_chat_vertexai
-    # - provider_cohere
     # - provider_huggingface_hub
     # - provider_openai
     # - provider_openrouter
