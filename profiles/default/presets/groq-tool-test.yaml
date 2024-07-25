@@ -2,7 +2,7 @@ metadata:
   name: groq-tool-test
   provider: chat_groq
 model_customizations:
-  model_name: llama3-70b-8192
+  model_name: llama3-groq-70b-8192-tool-use-preview
   tools:
     # - test_tool
     - reverse_content
