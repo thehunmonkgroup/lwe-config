@@ -16,7 +16,7 @@
         preset: "{{ preset }}"
         system_message: "You are a title extractor, you examine content and output ONLY the extracted title."
         message: |
-          Extract the title from the following paper, output ONLY the extracted title:
+          Extract the title from the following paper, output ONLY the extracted title, DO NOT add any additional text in your response:
 
           {{ extracted_text.content }}
       register: extracted_title
