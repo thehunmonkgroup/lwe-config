@@ -3,7 +3,7 @@
   hosts: localhost
   vars:
     user_id: 1
-    # preset: "gpt-4-chatbot-responses"
+    extract_title_preset: "gpt-4-chatbot-responses"
     preset: "claude-sonnet"
     content_directory: "/tmp/file-content"
     content_max_length: 400000
