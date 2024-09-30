@@ -1,5 +1,8 @@
 model:
-  default_preset: llama3-405b
+  default_preset: o1-mini
+  # default_preset: o1-preview
+  # default_preset: gemini-1.5-pro-002
+  # default_preset: llama3-405b
   # default_preset: claude-sonnet
   # default_preset: gpt-4-chatbot-responses
   # default_preset: claude-chatbot-responses
@@ -35,7 +38,7 @@ plugins:
     - provider_chat_anthropic
     # - provider_chat_anyscale
     # - provider_chat_cohere
-    - provider_chat_fireworks
+    # - provider_chat_fireworks
     - provider_chat_google_genai
     # - provider_chat_groq
     # - provider_chat_mistralai
@@ -54,8 +57,12 @@ plugins:
   gist:
     include_raw_link: true
     exclude_system_messages: true
-  # provider_openrouter:
-  #   models:
+  provider_openrouter:
+    models:
+      openai/o1-preview:
+        max_tokens: 131072
+      openai/o1-mini:
+        max_tokens: 131072
   #     deepseek/deepseek-coder:
   #       max_tokens: 32768
   # provider_chat_fireworks:

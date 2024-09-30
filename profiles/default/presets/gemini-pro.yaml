@@ -3,5 +3,5 @@ metadata:
   description: Gemini Pro model
   provider: chat_google_genai
 model_customizations:
-  model: gemini-1.5-pro-latest
+  model: gemini-1.5-pro-002
   n: 1
