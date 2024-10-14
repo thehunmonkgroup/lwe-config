@@ -47,7 +47,7 @@ plugins:
     # - provider_chat_vertexai
     # - provider_huggingface_hub
     # - provider_openai
-    # - provider_openrouter
+    - provider_openrouter
     # - provider_vertexai
   examples:
     confirm_overwrite: false
@@ -59,10 +59,8 @@ plugins:
     exclude_system_messages: true
   provider_openrouter:
     models:
-      openai/o1-preview:
-        max_tokens: 131072
-      openai/o1-mini:
-        max_tokens: 131072
+      liquid/lfm-40b:
+        max_tokens: 32768
   #     deepseek/deepseek-coder:
   #       max_tokens: 32768
   # provider_chat_fireworks:
