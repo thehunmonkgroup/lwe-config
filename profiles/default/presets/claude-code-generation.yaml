@@ -5,6 +5,6 @@ metadata:
   system_message: programmer
 model_customizations:
   max_tokens: 4000
-  model: claude-3-opus-20240229
+  model: claude-3-5-sonnet-latest
   temperature: 0.2
   top_p: 0.1

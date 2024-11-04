@@ -3,7 +3,7 @@ metadata:
   name: anthropic-tool-test
   provider: chat_anthropic
 model_customizations:
-  model: claude-3-opus-20240229
+  model: claude-3-5-haiku-latest
   max_tokens: 1024
   temperature: 0.2
   tools:

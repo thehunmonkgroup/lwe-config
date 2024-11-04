@@ -5,6 +5,6 @@ metadata:
   system_message: creative_writer
 model_customizations:
   max_tokens: 4000
-  model: claude-3-opus-20240229
+  model: claude-3-5-sonnet-latest
   temperature: 0.7
   top_p: 0.8

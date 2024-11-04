@@ -5,6 +5,6 @@ metadata:
   system_message: default
 model_customizations:
   max_tokens: 1500
-  model: claude-3-opus-20240229
+  model: claude-3-5-sonnet-latest
   temperature: 0.5
   top_p: 0.5
