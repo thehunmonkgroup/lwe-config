@@ -2,6 +2,6 @@ metadata:
   name: llama3-70b
   provider: chat_fireworks
 model_customizations:
-  model_name: accounts/fireworks/models/llama-v3-70b-instruct
+  model_name: accounts/fireworks/models/llama-v3p3-70b-instruct
   n: 1
   temperature: 0.0

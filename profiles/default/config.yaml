@@ -1,9 +1,10 @@
 model:
-  default_preset: claude-haiku
+  # default_preset: claude-haiku
   # default_preset: gpt-4o-mini
   # default_preset: o1-mini
   # default_preset: o1-preview
   # default_preset: gemini-1.5-pro-002
+  default_preset: llama3-70b
   # default_preset: llama3-405b
   # default_preset: claude-sonnet
   # default_preset: gpt-4-chatbot-responses
@@ -40,7 +41,7 @@ plugins:
     - provider_chat_anthropic
     # - provider_chat_anyscale
     # - provider_chat_cohere
-    # - provider_chat_fireworks
+    - provider_chat_fireworks
     - provider_chat_google_genai
     # - provider_chat_groq
     # - provider_chat_mistralai
