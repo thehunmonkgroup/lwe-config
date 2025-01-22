@@ -4,7 +4,10 @@ model:
   # default_preset: o1-mini
   # default_preset: o1-preview
   # default_preset: gemini-1.5-pro-002
-  default_preset: llama3-70b
+  # default_preset: llama3-70b
+  # default_preset: gemini-2.0-flash
+  # default_preset: deepseek-v3
+  default_preset: deepseek-r1
   # default_preset: llama3-405b
   # default_preset: claude-sonnet
   # default_preset: gpt-4-chatbot-responses
@@ -25,7 +28,7 @@ plugins:
     # Built-in plugins
     # - echo
     # - examples
-    # - provider_chat_openai_compat
+    - provider_chat_openai_compat
     - provider_fake_llm
     # Installed plugins.
     # - awesome
