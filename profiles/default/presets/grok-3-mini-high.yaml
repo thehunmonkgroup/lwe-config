@@ -1,0 +1,6 @@
+metadata:
+  name: grok-3-mini-high
+  provider: chat_xai
+model_customizations:
+  model_name: grok-3-mini
+  reasoning_effort: high

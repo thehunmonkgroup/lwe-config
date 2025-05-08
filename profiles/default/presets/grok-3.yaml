@@ -1,0 +1,5 @@
+metadata:
+  name: grok-3
+  provider: chat_xai
+model_customizations:
+  model_name: grok-3

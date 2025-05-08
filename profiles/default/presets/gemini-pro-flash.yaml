@@ -1,8 +1,0 @@
-metadata:
-  name: gemini-pro-flash
-  provider: chat_google_genai
-model_customizations:
-  model: gemini-1.5-flash-002
-  n: 1
-  temperature: 0.7
-  top_k: null

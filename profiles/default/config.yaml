@@ -2,7 +2,7 @@ model:
   # default_preset: claude-haiku
   # default_preset: gpt-4o-mini
   # default_preset: o1-mini
-  default_preset: o3-mini-low
+  # default_preset: o3-mini-low
   # default_preset: o1-preview
   # default_preset: gemini-1.5-pro-002
   # default_preset: llama3-70b
@@ -11,6 +11,9 @@ model:
   # default_preset: deepseek-r1
   # default_preset: llama3-405b
   # default_preset: claude-sonnet
+  # default_preset: claude-sonnet-thinking
+  # default_preset: gpt-4.1-mini
+  default_preset: gemini-2.5-flash
   # default_preset: gpt-4-chatbot-responses
   # default_preset: claude-chatbot-responses
   # default_preset: mistral-large
@@ -51,10 +54,12 @@ plugins:
     # - provider_chat_mistralai
     # - provider_chat_ollama
     # - provider_chat_together
+    - provider_chat_xai
     # - provider_chat_vertexai
     # - provider_huggingface_hub
     # - provider_openai
     - provider_openrouter
+    # - provider_requesty
     # - provider_vertexai
   examples:
     confirm_overwrite: false
@@ -66,10 +71,10 @@ plugins:
     exclude_system_messages: true
   provider_chat_openai:
     validate_models: false
-  provider_openrouter:
-    models:
-      liquid/lfm-40b:
-        max_tokens: 32768
+  # provider_openrouter:
+  #   models:
+  #     liquid/lfm-40b:
+  #       max_tokens: 32768
   #     deepseek/deepseek-coder:
   #       max_tokens: 32768
   # provider_chat_fireworks:

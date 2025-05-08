@@ -1,0 +1,6 @@
+metadata:
+  name: o4-mini
+  provider: chat_openai
+model_customizations:
+  model_name: o4-mini
+  temperature: 0.0

@@ -1,6 +1,8 @@
 metadata:
-  name: claude-sonnet
+  name: claude-sonnet-thinking
   provider: chat_anthropic
 model_customizations:
-  max_tokens: 4096
   model: claude-3-7-sonnet-latest
+  thinking:
+    budget_tokens: 16000
+    type: enabled

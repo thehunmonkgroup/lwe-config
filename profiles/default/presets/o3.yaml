@@ -1,0 +1,6 @@
+metadata:
+  name: o3
+  provider: chat_openai
+model_customizations:
+  model_name: o3
+  temperature: 0.0
