@@ -1,4 +1,7 @@
 model:
+  # default_preset: gemini-2.5-flash
+  default_preset: claude-sonnet
+  # default_preset: claude-sonnet-thinking
   # default_preset: claude-haiku
   # default_preset: gpt-4o-mini
   # default_preset: o1-mini
@@ -10,10 +13,7 @@ model:
   # default_preset: deepseek-v3
   # default_preset: deepseek-r1
   # default_preset: llama3-405b
-  # default_preset: claude-sonnet
-  # default_preset: claude-sonnet-thinking
   # default_preset: gpt-4.1-mini
-  default_preset: gemini-2.5-flash
   # default_preset: gpt-4-chatbot-responses
   # default_preset: claude-chatbot-responses
   # default_preset: mistral-large
@@ -43,10 +43,9 @@ plugins:
     - shell
     # - test
     # Installed provider plugins.
-    # - provider_ai21
+    # - provider_chat_ai21
     # - provider_azure_openai_chat
     - provider_chat_anthropic
-    # - provider_chat_anyscale
     # - provider_chat_cohere
     - provider_chat_fireworks
     - provider_chat_google_genai
@@ -58,7 +57,7 @@ plugins:
     # - provider_chat_vertexai
     # - provider_huggingface_hub
     # - provider_openai
-    - provider_openrouter
+    # - provider_openrouter
     # - provider_requesty
     # - provider_vertexai
   examples:

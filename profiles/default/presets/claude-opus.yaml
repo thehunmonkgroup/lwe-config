@@ -1,9 +1,9 @@
 metadata:
-  name: claude-sonnet
+  name: claude-opus
   provider: chat_anthropic
 model_customizations:
   max_tokens: 4096
-  model: claude-sonnet-4-0
+  model: claude-opus-4-0
   tool_choice:
     type: auto
   tools:
