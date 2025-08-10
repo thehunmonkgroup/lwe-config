@@ -28,8 +28,9 @@
   vars:
     user_id: 1
     extract_title_preset: "gpt-4o-mini"
-    preset: "claude-sonnet-thinking"
+    # preset: "claude-sonnet-thinking"
     # preset: "gemini-pro"
+    preset: "o3"
     content_directory: "{{ lookup('pipe', 'python -c \"import tempfile; print(tempfile.gettempdir())\"') }}/file-content"
     content_max_length: 400000
     summaries_directory: "{{ lookup('pipe', 'python -c \"import tempfile; print(tempfile.gettempdir())\"') }}/file-summaries"
