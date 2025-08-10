@@ -3,7 +3,7 @@ metadata:
   provider: chat_anthropic
 model_customizations:
   max_tokens: 12000
-  model: claude-opus-4-0
+  model: claude-opus-4-1
   thinking:
     budget_tokens: 2000
     type: enabled

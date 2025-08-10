@@ -1,0 +1,5 @@
+metadata:
+  name: gpt-5
+  provider: chat_openai
+model_customizations:
+  model_name: gpt-5

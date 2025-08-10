@@ -1,0 +1,5 @@
+metadata:
+  name: o3-pro
+  provider: chat_openai
+model_customizations:
+  model_name: o3-pro

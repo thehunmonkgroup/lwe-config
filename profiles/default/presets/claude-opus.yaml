@@ -3,7 +3,7 @@ metadata:
   provider: chat_anthropic
 model_customizations:
   max_tokens: 4096
-  model: claude-opus-4-0
+  model: claude-opus-4-1
   tool_choice:
     type: auto
   tools:
