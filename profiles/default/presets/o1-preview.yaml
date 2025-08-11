@@ -3,5 +3,4 @@ metadata:
   provider: chat_openai
 model_customizations:
   model_name: o1-preview
-  n: 1
   temperature: 0.7

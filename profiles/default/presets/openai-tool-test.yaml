@@ -3,15 +3,12 @@ metadata:
   name: openai-tool-test
   provider: chat_openai
 model_customizations:
-  max_tokens: null
   tools:
     # - test_tool
     - reverse_content
     # - Langchain-MoveFileTool
     # - uppercase_content
-  model_kwargs:
-    top_p: 0.1
-  model_name: gpt-4o
-  n: 1
+  tool_choice: reverse_content
+  model_name: gpt-4.1
   request_timeout: 60
   temperature: 0.2
